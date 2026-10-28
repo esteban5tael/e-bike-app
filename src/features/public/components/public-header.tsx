@@ -1,8 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { UserRole } from "@/lib/db/schema";
-import Image from "next/image";
 import Link from "next/link";
+import { Menu, X, Bike } from "lucide-react";
 import { useLogout } from "@/lib/auth/use-logout";
 import {
     DropdownMenu,
@@ -31,18 +32,21 @@ interface PublicHeaderProps {
     role?: UserRole | null;
 }
 
+const navLinks = [
+    { label: "Inicio", href: "/" },
+    { label: "Nosotros", href: "/#nosotros" },
+    { label: "Estaciones", href: "/#estaciones" },
+    { label: "Flota E-Bike", href: "/#flota" },
+    { label: "Cómo Funciona", href: "/#como-funciona" },
+];
+
 export const PublicHeader = ({
     currentUser,
     role,
 }: PublicHeaderProps) => {
-    // Cierra sesión en el servidor, purga el caché del navegador y navega
-    // fuera del área privada. Antes este `onClick` descartaba el resultado de
-    // `logoutAction()` y no navegaba, así que el header seguía mostrando la
-    // sesión iniciada. Ver decisión D3 de
-    // openspec/changes/04-harden-authentication/.
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const { logout, isPending } = useLogout();
 
-    // Obtener iniciales para el Avatar en caso de que no tenga imagen
     const getInitials = (name: string) => {
         return name
             .split(" ")
@@ -55,34 +59,34 @@ export const PublicHeader = ({
     return (
         <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
             <div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-8">
-                {/* 1. Logo a toda la izquierda */}
-                <div className="flex items-center gap-6">
-                    <Link
-                        href="/"
-                        className="flex items-center space-x-2"
-                    >
-                        <Image
-                            src="/logo.png"
-                            alt="Logo"
-                            width={40}
-                            height={40}
-                            className="h-10 w-auto object-contain rounded-full"
-                            priority
-                        />
+                {/* 1. Logo y marca */}
+                <div className="flex items-center gap-3">
+                    <Link href="/" className="flex items-center gap-2.5 group">
+                        <div className="relative flex items-center justify-center p-1.5 rounded-full bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                            <Bike className="w-5 h-5" />
+                        </div>
+                        <span className="font-extrabold text-lg tracking-tight bg-linear-to-r from-foreground to-foreground/70 bg-clip-text">
+                            E-Bike Movilidad
+                        </span>
                     </Link>
                 </div>
 
-                {/* 2. Espacio central para otros links */}
+                {/* 2. Enlaces centrales para Desktop */}
                 <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
-                    {/* Espacio para otros links centralizados */}
-                    <span className="text-muted-foreground">
-                        Espacio para otros links
-                    </span>
+                    {navLinks.map((link) => (
+                        <Link
+                            key={link.href}
+                            href={link.href}
+                            className="text-muted-foreground hover:text-foreground transition-colors"
+                        >
+                            {link.label}
+                        </Link>
+                    ))}
                 </nav>
 
-                {/* 3. Derecha: Todo lo demás (Autenticación / Menú Desplegable) */}
-                <div className="flex items-center gap-4">
-                        <ThemeSwitcher /> {/* 👈 aquí */}
+                {/* 3. Acciones Derecha: Switcher + Auth + Botón Hamburguesa Móvil */}
+                <div className="flex items-center gap-3">
+                    <ThemeSwitcher />
 
                     {currentUser ? (
                         <DropdownMenu>
@@ -96,26 +100,18 @@ export const PublicHeader = ({
                             >
                                 <Avatar className="h-8 w-8">
                                     <AvatarImage
-                                        src={
-                                            currentUser.image ||
-                                            undefined
-                                        }
+                                        src={currentUser.image || undefined}
                                         alt={currentUser.name}
                                     />
                                     <AvatarFallback>
-                                        {getInitials(
-                                            currentUser.name,
-                                        )}
+                                        {getInitials(currentUser.name)}
                                     </AvatarFallback>
                                 </Avatar>
                                 <span className="hidden sm:inline-block text-sm font-medium text-left">
                                     {currentUser.name}
                                 </span>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent
-                                align="end"
-                                className="w-56"
-                            >
+                            <DropdownMenuContent align="end" className="w-56">
                                 <DropdownMenuGroup>
                                     <DropdownMenuLabel className="font-normal">
                                         <div className="flex flex-col space-y-1">
@@ -137,10 +133,7 @@ export const PublicHeader = ({
                                         />
                                     }
                                 >
-                                    Panel |{" "}
-                                    {role
-                                        ? getUserRoleLabel(role)
-                                        : "Rol desconocido"}
+                                    Panel | {role ? getUserRoleLabel(role) : "Rol desconocido"}
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
                                     nativeButton={false}
@@ -159,44 +152,82 @@ export const PublicHeader = ({
                                     render={
                                         <button
                                             type="button"
-                                            onClick={logout}
+                                            onClick={() => logout()}
                                             disabled={isPending}
-                                            className="w-full text-destructive focus:text-destructive cursor-pointer flex items-center disabled:opacity-50"
+                                            className="w-full cursor-pointer text-left text-destructive focus:text-destructive"
                                         />
                                     }
                                 >
-                                    {isPending
-                                        ? "Cerrando sesión..."
-                                        : "Cerrar sesión"}
+                                    {isPending ? "Cerrando sesión..." : "Cerrar sesión"}
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
                     ) : (
-                        <div className="flex items-center gap-2">
+                        <div className="hidden sm:flex items-center gap-2">
                             <Button
                                 variant="ghost"
-                                nativeButton={false}
-                                render={
-                                    <Link href="/iniciar-sesion" />
-                                }
+                                size="sm"
+                                render={<Link href="/iniciar-sesion" />}
                             >
-                                Iniciar sesión
+                                Iniciar Sesión
                             </Button>
                             <Button
-                                nativeButton={false}
+                                size="sm"
                                 render={<Link href="/registrarse" />}
                             >
                                 Registrarse
                             </Button>
                         </div>
                     )}
+
+                    {/* Botón hamburguesa sólo en mobile */}
+                    <button
+                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                        className="md:hidden p-2 rounded-lg border border-border text-foreground hover:bg-muted/50 transition-colors"
+                        aria-label="Alternar menú de navegación"
+                    >
+                        {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                    </button>
                 </div>
             </div>
 
-            {/* Opcional para móviles: Barra inferior o secundaria para enlaces si el espacio central se oculta */}
-            <div className="md:hidden flex items-center justify-center border-t py-2 px-4 text-xs text-muted-foreground">
-                Espacio para otros links
-            </div>
+            {/* Menú desplegable móvil */}
+            {mobileMenuOpen && (
+                <div className="md:hidden border-b border-border bg-background px-4 py-4 space-y-3 animate-in slide-in-from-top-2">
+                    <nav className="flex flex-col gap-2.5">
+                        {navLinks.map((link) => (
+                            <Link
+                                key={link.href}
+                                href={link.href}
+                                onClick={() => setMobileMenuOpen(false)}
+                                className="px-3 py-2 rounded-lg text-sm font-medium hover:bg-muted transition-colors text-foreground"
+                            >
+                                {link.label}
+                            </Link>
+                        ))}
+                    </nav>
+
+                    {!currentUser && (
+                        <div className="pt-3 border-t border-border flex flex-col gap-2">
+                            <Button
+                                variant="outline"
+                                className="w-full justify-center"
+                                render={<Link href="/iniciar-sesion" />}
+                                onClick={() => setMobileMenuOpen(false)}
+                            >
+                                Iniciar Sesión
+                            </Button>
+                            <Button
+                                className="w-full justify-center"
+                                render={<Link href="/registrarse" />}
+                                onClick={() => setMobileMenuOpen(false)}
+                            >
+                                Registrarse
+                            </Button>
+                        </div>
+                    )}
+                </div>
+            )}
         </header>
     );
 };
