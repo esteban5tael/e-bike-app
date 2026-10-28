@@ -49,6 +49,28 @@ export const PrivateDashboardSidebar = ({
             allowedRoles: ["*"],
         },
         {
+            title: "Movilidad",
+            description: "Alquiler y estaciones de bicicletas",
+            icon: Bike,
+            allowedRoles: ["cliente"],
+            subitems: [
+                {
+                    title: "Rentar Bicicleta",
+                    description: "Estaciones y bicicletas disponibles",
+                    href: "/panel/rentar",
+                    icon: Bike,
+                    allowedRoles: ["cliente"],
+                },
+                {
+                    title: "Mis Alquileres",
+                    description: "Historial de viajes y alquiler activo",
+                    href: "/panel/alquileres",
+                    icon: CalendarClock,
+                    allowedRoles: ["cliente"],
+                },
+            ],
+        },
+        {
             title: "Infraestructura",
             description: "Gestión de estaciones e inventario",
             icon: MapPin,
