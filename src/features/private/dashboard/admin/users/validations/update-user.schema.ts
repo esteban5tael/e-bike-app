@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { userRoleEnum } from "@/lib/db/schema";
 
 /**
  * EDICIÓN DE UNA CUENTA DESDE EL PANEL — cuerpo de `updateUserAction`.
@@ -67,7 +68,7 @@ export const UpdateUserSchema = z
             .nullable()
             .optional(),
 
-        role: z.enum(["admin", "user", "guest"], {
+        role: z.enum(userRoleEnum.enumValues, {
             message: "Debes indicar un rol válido",
         }),
     })

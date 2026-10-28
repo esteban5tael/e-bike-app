@@ -45,7 +45,7 @@ const ADMIN_USERS_FORM_ROLE_ITEMS = USER_ROLES.map((role) => ({
     label: USER_ROLE_LABELS[role],
 }));
 
-const ADMIN_USERS_FORM_DEFAULT_ROLE: UserRole = "user";
+const ADMIN_USERS_FORM_DEFAULT_ROLE: UserRole = "cliente";
 const ADMIN_USERS_LIST_PATH = "/panel/admin/usuarios";
 
  interface AdminUserEditItem {
