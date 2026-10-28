@@ -36,8 +36,9 @@ const navLinks = [
     { label: "Inicio", href: "/" },
     { label: "Nosotros", href: "/#nosotros" },
     { label: "Estaciones", href: "/#estaciones" },
-    { label: "Flota E-Bike", href: "/#flota" },
+    { label: "Flota", href: "/#flota" },
     { label: "Cómo Funciona", href: "/#como-funciona" },
+    { label: "Diagrama del Sistema", href: "/diagrama" },
 ];
 
 export const PublicHeader = ({
@@ -66,7 +67,7 @@ export const PublicHeader = ({
                             <Bike className="w-5 h-5" />
                         </div>
                         <span className="font-extrabold text-lg tracking-tight bg-linear-to-r from-foreground to-foreground/70 bg-clip-text">
-                            E-Bike Movilidad
+                            E-Bike
                         </span>
                     </Link>
                 </div>

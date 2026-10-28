@@ -12,7 +12,7 @@ export function PublicFooter() {
                             <div className="p-1.5 rounded-full bg-primary/10 text-primary">
                                 <Bike className="w-5 h-5" />
                             </div>
-                            <span>E-Bike Movilidad Urbana</span>
+                            <span>E-Bike</span>
                         </Link>
                         <p className="text-xs sm:text-sm text-muted-foreground/80 max-w-sm leading-relaxed">
                             Sistema de bicicletas eléctricas compartidas comprometido con el aire limpio, la reducción del tráfico y la calidad de vida en nuestra ciudad.
@@ -43,6 +43,11 @@ export function PublicFooter() {
                             <li>
                                 <Link href="/#como-funciona" className="hover:text-foreground transition-colors">
                                     Cómo Funciona
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/diagrama" className="hover:text-foreground transition-colors">
+                                    Diagrama del Sistema
                                 </Link>
                             </li>
                         </ul>

@@ -1,0 +1,421 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "command": "finalize",
+  "status": "skipped",
+  "type": "architecture",
+  "quality": "showcase",
+  "startedAt": "2026-10-28T23:41:18.728Z",
+  "specification": {
+    "path": "/mnt/jebcdev/doc/tut/_sena/_programacion-software/02-trimestre/frontend-basesdatos/e-bike-app/.archify/system-architecture.json",
+    "sha256": "a81555b65656f42aa684d23ea02c489b37ae30ef2b5f9dae6263364ded879a2c",
+    "bytes": 4128
+  },
+  "artifact": {
+    "path": "/mnt/jebcdev/doc/tut/_sena/_programacion-software/02-trimestre/frontend-basesdatos/e-bike-app/public/diagrama-ebike.html",
+    "sha256": "1603788a57dbeb230ad1411a53e776e5c79eae21361dd32c669090c48e75bf0a",
+    "bytes": 854502
+  },
+  "stages": {
+    "validate": {
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": null,
+      "execution": "embedded-in-deliver",
+      "command": [
+        "/home/jebcdev/.config/nvm/versions/node/v26.12.1/bin/node",
+        "/mnt/jebcdev/doc/tut/_sena/_programacion-software/02-trimestre/frontend-basesdatos/e-bike-app/.agents/skills/archify/bin/archify.mjs",
+        "deliver",
+        "architecture",
+        "/mnt/jebcdev/doc/tut/_sena/_programacion-software/02-trimestre/frontend-basesdatos/e-bike-app/.archify/system-architecture.json",
+        "/mnt/jebcdev/doc/tut/_sena/_programacion-software/02-trimestre/frontend-basesdatos/e-bike-app/public/diagrama-ebike.html",
+        "--quality",
+        "showcase",
+        "--json"
+      ],
+      "receipt": {
+        "schemaVersion": 1,
+        "ok": true,
+        "command": "validate",
+        "specification": {
+          "sha256": "a81555b65656f42aa684d23ea02c489b37ae30ef2b5f9dae6263364ded879a2c",
+          "bytes": 4128
+        },
+        "validation": {
+          "checksPassed": 9,
+          "checkCount": 9,
+          "compositionProfile": "showcase",
+          "compositionStatus": "pass",
+          "errors": 0,
+          "warnings": 0
+        }
+      }
+    },
+    "deliver": {
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 646,
+      "command": [
+        "/home/jebcdev/.config/nvm/versions/node/v26.12.1/bin/node",
+        "/mnt/jebcdev/doc/tut/_sena/_programacion-software/02-trimestre/frontend-basesdatos/e-bike-app/.agents/skills/archify/bin/archify.mjs",
+        "deliver",
+        "architecture",
+        "/mnt/jebcdev/doc/tut/_sena/_programacion-software/02-trimestre/frontend-basesdatos/e-bike-app/.archify/system-architecture.json",
+        "/mnt/jebcdev/doc/tut/_sena/_programacion-software/02-trimestre/frontend-basesdatos/e-bike-app/public/diagrama-ebike.html",
+        "--quality",
+        "showcase",
+        "--json"
+      ],
+      "receipt": {
+        "schemaVersion": 1,
+        "receiptId": "3a154d45-59d3-4545-b006-2d7cd2d59d04",
+        "ok": true,
+        "command": "deliver",
+        "type": "architecture",
+        "input": "/mnt/jebcdev/doc/tut/_sena/_programacion-software/02-trimestre/frontend-basesdatos/e-bike-app/.archify/system-architecture.json",
+        "output": "/mnt/jebcdev/doc/tut/_sena/_programacion-software/02-trimestre/frontend-basesdatos/e-bike-app/public/diagrama-ebike.html",
+        "specification": {
+          "sha256": "a81555b65656f42aa684d23ea02c489b37ae30ef2b5f9dae6263364ded879a2c",
+          "bytes": 4128
+        },
+        "artifact": {
+          "sha256": "1603788a57dbeb230ad1411a53e776e5c79eae21361dd32c669090c48e75bf0a",
+          "bytes": 854502
+        },
+        "validation": {
+          "checksPassed": 9,
+          "checkCount": 9,
+          "compositionProfile": "showcase",
+          "compositionStatus": "pass",
+          "errors": 0,
+          "warnings": 0
+        },
+        "update": {
+          "status": "unavailable",
+          "installedVersion": null,
+          "availableVersion": null,
+          "releaseNotes": null,
+          "checkedAt": null,
+          "source": null,
+          "noticeRequired": false,
+          "noticeText": null,
+          "reason": "disabled"
+        }
+      }
+    },
+    "check": {
+      "status": "pass",
+      "exitCode": 0,
+      "durationMs": 229,
+      "command": [
+        "/home/jebcdev/.config/nvm/versions/node/v26.12.1/bin/node",
+        "/mnt/jebcdev/doc/tut/_sena/_programacion-software/02-trimestre/frontend-basesdatos/e-bike-app/.agents/skills/archify/bin/archify.mjs",
+        "check",
+        "/mnt/jebcdev/doc/tut/_sena/_programacion-software/02-trimestre/frontend-basesdatos/e-bike-app/public/diagrama-ebike.html",
+        "--require-provenance"
+      ],
+      "receipt": {
+        "ok": true,
+        "file": "/mnt/jebcdev/doc/tut/_sena/_programacion-software/02-trimestre/frontend-basesdatos/e-bike-app/public/diagrama-ebike.html",
+        "artifact": {
+          "sha256": "1603788a57dbeb230ad1411a53e776e5c79eae21361dd32c669090c48e75bf0a",
+          "bytes": 854502
+        },
+        "checks": [
+          {
+            "name": "single_svg",
+            "ok": true,
+            "details": [
+              "found 1 <svg> block(s)"
+            ]
+          },
+          {
+            "name": "finite_svg",
+            "ok": true,
+            "details": []
+          },
+          {
+            "name": "orthogonal_arrows",
+            "ok": true,
+            "details": []
+          },
+          {
+            "name": "label_route_clearance",
+            "ok": true,
+            "details": []
+          },
+          {
+            "name": "relationship_crossings",
+            "ok": true,
+            "details": []
+          },
+          {
+            "name": "relationship_corridors",
+            "ok": true,
+            "details": []
+          },
+          {
+            "name": "container_border_runs",
+            "ok": true,
+            "details": []
+          },
+          {
+            "name": "route_rhythm",
+            "ok": true,
+            "details": []
+          },
+          {
+            "name": "legend_clearance",
+            "ok": true,
+            "details": []
+          }
+        ],
+        "composition": {
+          "schemaVersion": 1,
+          "profile": "showcase",
+          "status": "pass",
+          "summary": {
+            "errors": 0,
+            "warnings": 0
+          },
+          "metrics": {
+            "properCrossings": 0,
+            "resolvedCrossovers": 1,
+            "ambiguousCorridors": 0,
+            "arrowheadCollisions": 0,
+            "containerBorderRuns": 0,
+            "labelRouteClearanceIssues": 0,
+            "labelCanvasOverflowIssues": 0,
+            "minLabelRouteClearance": 16.5,
+            "desktopReadabilityIssues": 0,
+            "viewportHeightIssues": 0,
+            "minProjectedNodeTextPx": 7.5,
+            "maxBends": 4,
+            "routesOverSuggestedBends": 2,
+            "maxStretch": 1.321,
+            "routesOverSuggestedStretch": 0,
+            "minSegmentPx": 24,
+            "minInteriorSegmentPx": 28.5,
+            "shortSegmentCount": 0,
+            "shortEndpointSegmentCount": 0,
+            "shortInteriorSegmentCount": 0,
+            "microSegmentCount": 0
+          },
+          "suggestedLimits": {
+            "bendsPerRelationship": 2,
+            "stretch": 1.35,
+            "segmentPx": 16,
+            "microSegmentPx": 8
+          },
+          "routeReview": {
+            "crossings": [
+              {
+                "left": {
+                  "id": "c4",
+                  "from": "client_portal",
+                  "to": "auth_guard",
+                  "label": "Verifica sesión",
+                  "collectionIndex": 3,
+                  "artifactIndex": 4
+                },
+                "right": {
+                  "id": "c5",
+                  "from": "admin_portal",
+                  "to": "auth_guard",
+                  "label": "Verifica rol",
+                  "collectionIndex": 4,
+                  "artifactIndex": 5
+                },
+                "point": [
+                  445,
+                  289
+                ],
+                "sharedNode": "auth_guard"
+              }
+            ],
+            "detours": [
+              {
+                "relationship": {
+                  "id": "c4",
+                  "from": "client_portal",
+                  "to": "auth_guard",
+                  "label": "Verifica sesión",
+                  "collectionIndex": 3,
+                  "artifactIndex": 4
+                },
+                "bends": 3,
+                "stretch": 1.321
+              },
+              {
+                "relationship": {
+                  "id": "c8",
+                  "from": "admin_portal",
+                  "to": "admin_actions",
+                  "label": "Server Actions",
+                  "collectionIndex": 7,
+                  "artifactIndex": 8
+                },
+                "bends": 4,
+                "stretch": 1.194
+              }
+            ]
+          },
+          "leadingSpace": {
+            "measured": true,
+            "emptyTopPx": 10,
+            "emptyTopRatio": 0.019,
+            "occupiedTop": 10,
+            "viewBoxTop": 0,
+            "canvasHeight": 518,
+            "typicalNodeHeight": 65,
+            "reviewSuggested": false
+          },
+          "desktopReadability": {
+            "budgetBasis": "recognized-declared-wide",
+            "readerContract": "declared-wide-v1",
+            "availableDiagramWidth": 1101.26582278481,
+            "actualBudgetPx": 1101.26582278481,
+            "actualReaderWidth": 1131.26582278481,
+            "desiredReaderWidth": 1131.26582278481,
+            "viewportCap": 1376,
+            "limit": "source-size",
+            "requestedTargetPx": 7.5,
+            "requestedTargetMet": true,
+            "hardFloorPx": 6,
+            "hardFloorMet": true,
+            "minimumOwner": {
+              "kind": "node",
+              "id": "admin_actions"
+            },
+            "minimumSourceTextPx": 7.9,
+            "minimumProjectedTextPx": 7.5,
+            "semanticTextCount": 35
+          },
+          "issues": []
+        },
+        "provenance": "current",
+        "deliveryReceiptId": "3a154d45-59d3-4545-b006-2d7cd2d59d04"
+      }
+    },
+    "browser-check": {
+      "status": "skipped",
+      "exitCode": 2,
+      "durationMs": 51,
+      "command": [
+        "/home/jebcdev/.config/nvm/versions/node/v26.12.1/bin/node",
+        "/mnt/jebcdev/doc/tut/_sena/_programacion-software/02-trimestre/frontend-basesdatos/e-bike-app/.agents/skills/archify/bin/archify.mjs",
+        "browser-check",
+        "/mnt/jebcdev/doc/tut/_sena/_programacion-software/02-trimestre/frontend-basesdatos/e-bike-app/public/diagrama-ebike.html",
+        "--json",
+        "--require-provenance"
+      ],
+      "execution": "in-process",
+      "receipt": {
+        "schemaVersion": 1,
+        "ok": false,
+        "command": "browser-check",
+        "evidenceKind": "automated-browser",
+        "status": "skipped",
+        "visualReview": "not-requested",
+        "provenance": "current",
+        "deliveryReceiptId": "3a154d45-59d3-4545-b006-2d7cd2d59d04",
+        "artifact": {
+          "path": "/mnt/jebcdev/doc/tut/_sena/_programacion-software/02-trimestre/frontend-basesdatos/e-bike-app/public/diagrama-ebike.html",
+          "sha256": "1603788a57dbeb230ad1411a53e776e5c79eae21361dd32c669090c48e75bf0a",
+          "bytes": 854502
+        },
+        "state": {
+          "detail": "read",
+          "motion": "still"
+        },
+        "chrome": {
+          "status": "unavailable",
+          "executable": null
+        },
+        "diagnostics": [
+          {
+            "code": "viewer/chrome-unavailable",
+            "severity": "warning",
+            "message": "No supported browser found. Install Chrome/Chromium (or Microsoft Edge), or set ARCHIFY_CHROME to its executable path.",
+            "subject": {
+              "artifact": "/mnt/jebcdev/doc/tut/_sena/_programacion-software/02-trimestre/frontend-basesdatos/e-bike-app/public/diagrama-ebike.html"
+            },
+            "evidence": {
+              "executable": null
+            },
+            "supportedFixes": [
+              "set ARCHIFY_CHROME to a Chrome/Chromium executable (or Microsoft Edge) and rerun browser-check"
+            ]
+          }
+        ],
+        "containment": {
+          "status": "skipped",
+          "policy": "fit-or-reader-declared-readable-vertical-scroll",
+          "viewports": []
+        },
+        "themeStates": {
+          "status": "skipped",
+          "viewports": []
+        },
+        "readability": {
+          "status": "skipped",
+          "minimumProjectedNodeTextPx": 6,
+          "viewports": []
+        },
+        "viewerChrome": {
+          "status": "skipped",
+          "viewports": []
+        },
+        "captures": {
+          "status": "not-requested",
+          "screenshots": [],
+          "contactSheet": null
+        },
+        "sidecars": {
+          "receipt": "diagrama-ebike.browser-check.json",
+          "files": []
+        },
+        "error": "No supported browser found. Install Chrome/Chromium (or Microsoft Edge), or set ARCHIFY_CHROME to its executable path."
+      }
+    }
+  },
+  "browserCheck": {
+    "requested": true,
+    "ran": false
+  },
+  "diagnostics": [
+    {
+      "code": "viewer/chrome-unavailable",
+      "severity": "warning",
+      "message": "No supported browser found. Install Chrome/Chromium (or Microsoft Edge), or set ARCHIFY_CHROME to its executable path.",
+      "subject": {
+        "artifact": "/mnt/jebcdev/doc/tut/_sena/_programacion-software/02-trimestre/frontend-basesdatos/e-bike-app/public/diagrama-ebike.html"
+      },
+      "evidence": {
+        "executable": null
+      },
+      "supportedFixes": [
+        "set ARCHIFY_CHROME to a Chrome/Chromium executable (or Microsoft Edge) and rerun browser-check"
+      ]
+    }
+  ],
+  "evidence": {
+    "receipt": "/mnt/jebcdev/doc/tut/_sena/_programacion-software/02-trimestre/frontend-basesdatos/e-bike-app/public/diagrama-ebike.finalize.json",
+    "summaryReceipt": "/mnt/jebcdev/doc/tut/_sena/_programacion-software/02-trimestre/frontend-basesdatos/e-bike-app/public/diagrama-ebike.finalize-summary.json",
+    "browserCheckReceipt": "/mnt/jebcdev/doc/tut/_sena/_programacion-software/02-trimestre/frontend-basesdatos/e-bike-app/public/diagrama-ebike.browser-check.json"
+  },
+  "visualReview": "not-requested",
+  "failedStage": "browser-check",
+  "finishedAt": "2026-10-28T23:41:19.818Z",
+  "durationMs": 1089,
+  "update": {
+    "status": "current",
+    "installedVersion": "3.2.0",
+    "availableVersion": "3.2.0",
+    "releaseNotes": null,
+    "checkedAt": "2026-10-20T22:57:53.705Z",
+    "source": "cache",
+    "noticeRequired": false,
+    "noticeText": null
+  }
+}
