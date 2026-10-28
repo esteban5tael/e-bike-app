@@ -50,17 +50,13 @@ export const PrivateDashboardHeader = ({
                     <div className="flex shrink-0 flex-wrap items-center gap-2">
                         {action.path ? (
                             <Button
-                                
+                                render={<Link href={action.path} />}
                                 variant={action.variant ?? "default"}
                                 size="sm"
+                                className="inline-flex items-center gap-2"
                             >
-                                <Link
-                                    href={action.path}
-                                    className="inline-flex items-center gap-2"
-                                >
-                                    {action.icon}
-                                    <span>{action.label}</span>
-                                </Link>
+                                {action.icon}
+                                <span>{action.label}</span>
                             </Button>
                         ) : (
                             <Button
