@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "E-Bike - Arquitectura Técnica del MVP",
+    "output": "public/diagrama-ebike.html",
+    "quality_profile": "showcase"
+  },
+  "components": [
+    { "id": "client_users", "type": "external", "label": "Usuarios / Clientes", "sublabel": "Web Mobile / Desktop", "pos": [40, 160], "size": [140, 65] },
+    { "id": "admin_staff", "type": "external", "label": "Operadores / Admin", "sublabel": "Gestión & Talleres", "pos": [40, 360], "size": [140, 65] },
+
+    { "id": "public_landing", "type": "frontend", "label": "Páginas Públicas", "sublabel": "/ (Home), /diagrama", "pos": [260, 80], "size": [150, 65] },
+    { "id": "client_portal", "type": "frontend", "label": "Portal Cliente", "sublabel": "/panel, /rentar, /alquileres", "pos": [260, 200], "size": [150, 65] },
+    { "id": "admin_portal", "type": "frontend", "label": "Portal Staff/Admin", "sublabel": "/panel/admin/*", "pos": [260, 360], "size": [150, 65] },
+
+    { "id": "auth_guard", "type": "security", "label": "Auth & Role Guard", "sublabel": "getSessionDetails()", "pos": [480, 200], "size": [150, 65], "tag": "Zero-Trust" },
+    { "id": "better_auth", "type": "security", "label": "Better Auth", "sublabel": "Admin Plugin + Cookies", "pos": [480, 360], "size": [150, 65] },
+
+    { "id": "client_actions", "type": "backend", "label": "Client Actions", "sublabel": "start / return / cancel", "pos": [700, 160], "size": [160, 70], "tag": "Drizzle Tx" },
+    { "id": "admin_actions", "type": "backend", "label": "Admin Actions", "sublabel": "CRUD flota, estaciones, talleres", "pos": [700, 360], "size": [160, 70] },
+
+    { "id": "tanstack_query", "type": "frontend", "label": "TanStack Query", "sublabel": "clientRentalKeys cache", "pos": [700, 40], "size": [160, 65] },
+
+    { "id": "db_postgres", "type": "database", "label": "PostgreSQL DB", "sublabel": "Drizzle v2 ORM", "pos": [940, 260], "size": [150, 80] }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "Next.js 16 (App Router + Turbopack + Tailwind v4)", "wraps": ["public_landing", "client_portal", "admin_portal", "auth_guard", "better_auth", "client_actions", "admin_actions", "tanstack_query"] },
+    { "kind": "security-group", "label": "Capa de Datos y Persistencia", "wraps": ["db_postgres"] }
+  ],
+  "connections": [
+    { "id": "c1", "from": "client_users", "to": "public_landing", "label": "HTTP Visitante" },
+    { "id": "c2", "from": "client_users", "to": "client_portal", "label": "Rol cliente" },
+    { "id": "c3", "from": "admin_staff", "to": "admin_portal", "label": "Rol staff/admin" },
+    { "id": "c4", "from": "client_portal", "to": "auth_guard", "label": "Verifica sesión" },
+    { "id": "c5", "from": "admin_portal", "to": "auth_guard", "label": "Verifica rol" },
+    { "id": "c6", "from": "auth_guard", "to": "better_auth", "label": "Cookies / Tokens" },
+    { "id": "c7", "from": "client_portal", "to": "client_actions", "label": "Server Actions" },
+    { "id": "c8", "from": "admin_portal", "to": "admin_actions", "label": "Server Actions" },
+    { "id": "c9", "from": "client_portal", "to": "tanstack_query", "label": "useQuery / useMutation" },
+    { "id": "c10", "from": "client_actions", "to": "db_postgres", "label": "Atomic Tx SQL", "variant": "emphasis" },
+    { "id": "c11", "from": "admin_actions", "to": "db_postgres", "label": "SQL queries" }
+  ],
+  "cards": [
+    { "dot": "cyan", "title": "Frontend & UI", "items": ["Next.js 16 App Router con Turbopack y React 19", "Componentes UI con base-ui y Tailwind CSS v4", "TanStack React Query para caché e invalidaciones precisas"] },
+    { "dot": "emerald", "title": "Lógica de Negocio", "items": ["Transacciones atómicas en Drizzle para bloquear doble alquiler", "Tarifa calculada determinista ($2.000 COP base + $300/min)", "Separación estricta de privilegios cliente vs staff"] },
+    { "dot": "rose", "title": "Seguridad & Datos", "items": ["Better Auth con roles pgEnum en PostgreSQL", "Validaciones Zod estrictas (.strict()) en todas las acciones", "Audit logging y monitoreo de estados de estaciones y baterías"] }
+  ]
+}

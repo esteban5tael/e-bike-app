@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "3a154d45-59d3-4545-b006-2d7cd2d59d04",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "/mnt/jebcdev/doc/tut/_sena/_programacion-software/02-trimestre/frontend-basesdatos/e-bike-app/.archify/system-architecture.json",
+  "output": "/mnt/jebcdev/doc/tut/_sena/_programacion-software/02-trimestre/frontend-basesdatos/e-bike-app/public/diagrama-ebike.html",
+  "specification": {
+    "sha256": "a81555b65656f42aa684d23ea02c489b37ae30ef2b5f9dae6263364ded879a2c",
+    "bytes": 4128
+  },
+  "artifact": {
+    "sha256": "1603788a57dbeb230ad1411a53e776e5c79eae21361dd32c669090c48e75bf0a",
+    "bytes": 854502
+  }
+}
