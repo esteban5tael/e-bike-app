@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="es" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>e-Bike System | Presentación Técnica & Arquitectura</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            dark: '#07050d',
+                            surface: '#0f0b1b',
+                            card: '#161129',
+                            border: '#2a1f4d',
+                            purple: '#9d4edd',
+                            neonPurple: '#c77dff',
+                            electricPurple: '#7b2cbf',
+                            green: '#00ff87',
+                            neonGreen: '#10b981',
+                            toxicGreen: '#39ff14',
+                            cyan: '#00f5d4',
+                            text: '#f1f0f7',
+                            muted: '#9a8fba'
+                        }
+                    },
+                    fontFamily: {
+                        mono: ['JetBrains Mono', 'Fira Code', 'Courier New', 'monospace'],
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        tech: ['Orbitron', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'neon-purple': '0 0 25px -5px rgba(157, 78, 221, 0.5)',
+                        'neon-green': '0 0 25px -5px rgba(0, 255, 135, 0.5)',
+                        'cyber-card': '0 8px 32px 0 rgba(0, 0, 0, 0.37)'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;400;600;800;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #07050d;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(123, 44, 191, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 85% 85%, rgba(0, 255, 135, 0.1) 0%, transparent 40%),
+                linear-gradient(rgba(22, 17, 41, 0.4) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(22, 17, 41, 0.4) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 30px 30px, 30px 30px;
+        }
+        .glow-text-purple {
+            text-shadow: 0 0 15px rgba(199, 125, 255, 0.6), 0 0 30px rgba(157, 78, 221, 0.3);
+        }
+        .glow-text-green {
+            text-shadow: 0 0 15px rgba(0, 255, 135, 0.6), 0 0 30px rgba(0, 255, 135, 0.3);
+        }
+        .glassmorphism {
+            background: rgba(22, 17, 41, 0.75);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(157, 78, 221, 0.25);
+        }
+        .glassmorphism-green {
+            background: rgba(15, 27, 22, 0.75);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(0, 255, 135, 0.3);
+        }
+        .code-container {
+            font-family: 'Fira Code', monospace;
+            background: #090712;
+            border-left: 3px solid #00ff87;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #07050d;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2a1f4d;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #9d4edd;
+        }
+    </style>
+</head>
+<body class="text-cyber-text antialiased font-sans selection:bg-cyber-purple selection:text-white">
+
+    <!-- Top Floating Navbar -->
+    <header class="fixed top-0 left-0 right-0 z-50 glassmorphism border-b border-cyber-purple/30 bg-cyber-dark/80 px-6 py-3">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <span class="inline-block w-3 h-3 rounded-full bg-cyber-green animate-ping"></span>
+                <span class="font-tech text-xl font-bold tracking-wider text-white">
+                    E-BIKE <span class="text-cyber-green glow-text-green">SYSTEM</span>
+                </span>
+                <span class="hidden sm:inline-block text-[11px] font-mono px-2 py-0.5 rounded bg-cyber-purple/20 text-cyber-neonPurple border border-cyber-purple/40">
+                    SENA 02-TRIMESTRE
+                </span>
+            </div>
+            <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
+                <a href="#vision" class="hover:text-cyber-green transition-colors">Visión</a>
+                <a href="#fullstack" class="hover:text-cyber-green transition-colors">¿Qué es Full Stack?</a>
+                <a href="#tecnologias" class="hover:text-cyber-green transition-colors">Stack Tech</a>
+                <a href="#db" class="hover:text-cyber-green transition-colors">Base de Datos</a>
+                <a href="#arquitectura" class="hover:text-cyber-green transition-colors">Arquitectura</a>
+                <a href="#flujos" class="hover:text-cyber-green transition-colors">Flujos Clave</a>
+            </nav>
+            <div class="flex items-center gap-2">
+                <a href="http://localhost:3000" target="_blank" class="px-3.5 py-1.5 rounded-lg bg-cyber-green/10 border border-cyber-green text-cyber-green text-xs font-mono font-semibold hover:bg-cyber-green hover:text-black transition-all shadow-neon-green">
+                    DEMO EN VIVO &rarr;
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="min-h-screen pt-32 pb-20 px-6 flex flex-col justify-center items-center text-center relative overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(157,78,221,0.25)_0%,transparent_60%)] pointer-events-none"></div>
+        <div class="max-w-5xl mx-auto relative z-10 space-y-6">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-cyber-green/40 bg-cyber-green/5 text-cyber-green text-xs font-mono uppercase tracking-widest">
+                <span class="w-2 h-2 rounded-full bg-cyber-green"></span>
+                Exposición Académica &bull; Sistema de Movilidad Sostenible
+            </div>
+            
+            <h1 class="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight font-tech leading-tight">
+                PLATAFORMA INTEGRAL DE <br>
+                <span class="text-transparent bg-clip-text bg-linear-to-r from-cyber-neonPurple via-cyber-purple to-cyber-green glow-text-purple">
+                    MICRO-MOVILIDAD ELÉCTRICA
+                </span>
+            </h1>
+
+            <p class="max-w-3xl mx-auto text-lg sm:text-xl text-cyber-muted font-light leading-relaxed">
+                Descubre cómo funciona por dentro una aplicación moderna con arquitectura por capas, control de acceso basado en roles (RBAC), transaccionalidad en PostgreSQL y cálculo dinámico de tarifas en tiempo real.
+            </p>
+
+            <div class="pt-6 flex flex-wrap justify-center gap-4">
+                <a href="#vision" class="px-6 py-3 rounded-xl bg-linear-to-r from-cyber-purple to-cyber-electricPurple text-white font-semibold text-sm shadow-neon-purple hover:opacity-95 transition-all">
+                    Iniciar Exposición
+                </a>
+                <a href="#tecnologias" class="px-6 py-3 rounded-xl glassmorphism text-cyber-green font-mono text-sm border border-cyber-green/40 hover:bg-cyber-green/10 transition-all">
+                    Explorar Tecnologías
+                </a>
+            </div>
+
+            <!-- Metric Badges -->
+            <div class="pt-12 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-4xl mx-auto">
+                <div class="glassmorphism p-4 rounded-xl text-center">
+                    <span class="block text-2xl font-bold font-mono text-cyber-green">14 Tablas</span>
+                    <span class="text-xs text-cyber-muted">Esquema Relacional PG</span>
+                </div>
+                <div class="glassmorphism p-4 rounded-xl text-center">
+                    <span class="block text-2xl font-bold font-mono text-cyber-neonPurple">Next.js 16</span>
+                    <span class="text-xs text-cyber-muted">Full-Stack Framework</span>
+                </div>
+                <div class="glassmorphism p-4 rounded-xl text-center">
+                    <span class="block text-2xl font-bold font-mono text-cyber-green">3 Roles</span>
+                    <span class="text-xs text-cyber-muted">Admin &bull; Operador &bull; Cliente</span>
+                </div>
+                <div class="glassmorphism p-4 rounded-xl text-center">
+                    <span class="block text-2xl font-bold font-mono text-cyber-neonPurple">100% TypeScript</span>
+                    <span class="text-xs text-cyber-muted">Tipado Estricto de Punta a Punta</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 1: VISIÓN GENERAL DEL SISTEMA -->
+    <section id="vision" class="py-24 px-6 border-t border-cyber-border/40 relative">
+        <div class="max-w-6xl mx-auto space-y-12">
+            <div class="text-center space-y-3">
+                <h2 class="text-xs font-mono uppercase tracking-widest text-cyber-green">// Módulo 01: Contexto de Negocio</h2>
+                <h3 class="text-3xl sm:text-4xl font-extrabold font-tech text-white">¿Qué problema resuelve este sistema?</h3>
+                <p class="text-cyber-muted max-w-2xl mx-auto text-sm sm:text-base">
+                    e-Bike no es solo una página web; es un ecosistema operativo completo para la gestión de bicicletas eléctricas compartidas en Medellín.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Card 1 -->
+                <div class="glassmorphism p-6 rounded-2xl border-l-4 border-l-cyber-purple space-y-3">
+                    <div class="w-10 h-10 rounded-lg bg-cyber-purple/20 flex items-center justify-center text-cyber-neonPurple font-bold">01</div>
+                    <h4 class="text-lg font-bold text-white">Para el Ciudadano (Cliente)</h4>
+                    <p class="text-sm text-cyber-muted leading-relaxed">
+                        Explora estaciones en tiempo real, desbloquea una bicicleta mediante código, monitorea su tiempo de viaje acumulado y realiza devoluciones autónomas con costo transparente.
+                    </p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="glassmorphism p-6 rounded-2xl border-l-4 border-l-cyber-green space-y-3">
+                    <div class="w-10 h-10 rounded-lg bg-cyber-green/20 flex items-center justify-center text-cyber-green font-bold">02</div>
+                    <h4 class="text-lg font-bold text-white">Para el Operador de Campo</h4>
+                    <p class="text-sm text-cyber-muted leading-relaxed">
+                        Monitorea niveles de batería en cada anclaje, reemplaza baterías descargadas, registra mantenimientos preventivos/correctivos y balancea la flota entre estaciones.
+                    </p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="glassmorphism p-6 rounded-2xl border-l-4 border-l-cyan-400 space-y-3">
+                    <div class="w-10 h-10 rounded-lg bg-cyan-400/20 flex items-center justify-center text-cyan-400 font-bold">03</div>
+                    <h4 class="text-lg font-bold text-white">Para el Administrador</h4>
+                    <p class="text-sm text-cyber-muted leading-relaxed">
+                        Supervisa el 100% de los alquileres en vivo, resuelve incidencias, ajusta las tarifas del servicio en COP, gestiona usuarios y revisa el log de auditoría para trazabilidad.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: NEXT.JS ES UN FRAMEWORK FULL-STACK -->
+    <section id="fullstack" class="py-24 px-6 bg-cyber-surface/60 border-t border-cyber-border/40 relative">
+        <div class="max-w-6xl mx-auto space-y-12">
+            <div class="text-center space-y-3">
+                <h2 class="text-xs font-mono uppercase tracking-widest text-cyber-neonPurple">// Módulo 02: Concepto Fundamental</h2>
+                <h3 class="text-3xl sm:text-4xl font-extrabold font-tech text-white">¿Por qué decimos que Next.js es Full-Stack?</h3>
+                <p class="text-cyber-muted max-w-2xl mx-auto text-sm sm:text-base">
+                    Es común pensar que Next.js es solo React o solo frontend. En realidad, unifica el cliente y el servidor en un solo proyecto ejecutable.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <!-- Columna Explicación -->
+                <div class="space-y-6">
+                    <div class="glassmorphism p-6 rounded-2xl border border-cyber-purple/40 space-y-3">
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-cyber-purple"></span>
+                            <h4 class="font-bold text-lg text-cyber-neonPurple">Lado Cliente (Frontend)</h4>
+                        </div>
+                        <p class="text-sm text-cyber-muted leading-relaxed">
+                            Componentes interactivos de React 19 (<code class="text-cyber-green font-mono">"use client"</code>) con estado, hooks de TanStack Query, formularios reactivos, mapas interactivos y diseño con Tailwind CSS v4.
+                        </p>
+                    </div>
+
+                    <div class="glassmorphism-green p-6 rounded-2xl border border-cyber-green/40 space-y-3">
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-cyber-green"></span>
+                            <h4 class="font-bold text-lg text-cyber-green">Lado Servidor (Backend)</h4>
+                        </div>
+                        <p class="text-sm text-cyber-muted leading-relaxed">
+                            Ejecuta código seguro en Node.js mediante <strong>Server Actions</strong> (<code class="text-cyber-neonPurple font-mono">"use server"</code>). Se conecta directamente a la base de datos PostgreSQL mediante Drizzle ORM, valida sesiones criptográficas con Better-Auth y nunca expone contraseñas ni tokens al navegador.
+                        </p>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-cyber-card/80 border border-cyber-border text-xs font-mono text-cyber-muted">
+                        ⚡ <strong>Ventaja Clave:</strong> No requerimos crear un backend separado en Express ni configurar CORS. Todo se comunica de forma tipada y segura dentro del mismo ciclo de vida.
+                    </div>
+                </div>
+
+                <!-- Columna Diagrama Comparativo -->
+                <div class="glassmorphism p-6 rounded-2xl space-y-4 font-mono text-xs">
+                    <div class="text-cyber-green font-bold text-sm tracking-wide">// FLUJO DE UN SERVER ACTION EN NEXT.JS 16</div>
+                    <div class="p-4 rounded-xl bg-cyber-dark border border-cyber-border space-y-3">
+                        <div class="flex items-center justify-between text-cyber-muted">
+                            <span>[Navegador del Usuario]</span>
+                            <span class="text-cyber-green">&rarr; Envía Click "Devolver Bici"</span>
+                        </div>
+                        <div class="h-0.5 bg-cyber-border/60"></div>
+                        <div class="text-cyber-neonPurple font-semibold">
+                            &darr; returnRentalAction(idAlquiler, idEstacion)
+                        </div>
+                        <div class="p-3 rounded bg-cyber-surface border border-cyber-purple/30 text-cyber-text space-y-1">
+                            <div class="text-emerald-400 font-bold">Node.js Server Environment:</div>
+                            <div>1. Verifica cookie de sesión (Better-Auth)</div>
+                            <div>2. Valida input con Zod v4</div>
+                            <div>3. Consulta tabla 'tarifas' en PostgreSQL</div>
+                            <div>4. Inicia Transacción SQL con Drizzle ORM</div>
+                            <div>5. Retorna solo el DTO seguro al cliente</div>
+                        </div>
+                        <div class="h-0.5 bg-cyber-border/60"></div>
+                        <div class="flex items-center justify-between text-cyber-green font-bold">
+                            <span>[Navegador se actualiza]</span>
+                            <span>&larr; Responde: "Costo $4.100 COP"</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: STACK TECNOLÓGICO -->
+    <section id="tecnologias" class="py-24 px-6 border-t border-cyber-border/40 relative">
+        <div class="max-w-6xl mx-auto space-y-12">
+            <div class="text-center space-y-3">
+                <h2 class="text-xs font-mono uppercase tracking-widest text-cyber-green">// Módulo 03: Arquitectura Tecnológica</h2>
+                <h3 class="text-3xl sm:text-4xl font-extrabold font-tech text-white">Herramientas y Librerías del Proyecto</h3>
+                <p class="text-cyber-muted max-w-2xl mx-auto text-sm sm:text-base">
+                    Cada tecnología fue seleccionada para maximizar la velocidad, la seguridad de tipos y la mantenibilidad a largo plazo.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Tech 1 -->
+                <div class="glassmorphism p-6 rounded-2xl space-y-3 hover:border-cyber-purple transition-all group">
+                    <div class="flex items-center justify-between">
+                        <span class="text-lg font-bold text-white group-hover:text-cyber-neonPurple transition-colors">Next.js 16.3.6</span>
+                        <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyber-purple/20 text-cyber-neonPurple">App Router</span>
+                    </div>
+                    <p class="text-xs text-cyber-muted leading-relaxed">
+                        Compilación ultra-rápida con <strong>Turbopack</strong>, renderizado híbrido en servidor, rutas dinámicas y ejecución nativa de Server Actions.
+                    </p>
+                </div>
+
+                <!-- Tech 2 -->
+                <div class="glassmorphism p-6 rounded-2xl space-y-3 hover:border-cyber-green transition-all group">
+                    <div class="flex items-center justify-between">
+                        <span class="text-lg font-bold text-white group-hover:text-cyber-green transition-colors">React 19</span>
+                        <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyber-green/20 text-cyber-green">React Compiler</span>
+                    </div>
+                    <p class="text-xs text-cyber-muted leading-relaxed">
+                        Aprovecha el compilador automático de React 19 para memoización reactiva sin sobrecarga manual de <code>useMemo</code> ni <code>useCallback</code> innecesarios.
+                    </p>
+                </div>
+
+                <!-- Tech 3 -->
+                <div class="glassmorphism p-6 rounded-2xl space-y-3 hover:border-cyan-400 transition-all group">
+                    <div class="flex items-center justify-between">
+                        <span class="text-lg font-bold text-white group-hover:text-cyan-400 transition-colors">PostgreSQL + Drizzle v2</span>
+                        <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-400/20 text-cyan-400">ORM Typesafe</span>
+                    </div>
+                    <p class="text-xs text-cyber-muted leading-relaxed">
+                        ORM tipo-seguro sin latencia. Utiliza <code>defineRelations</code> v2, consultas SQL transaccionales y migrador automático sin generar código inflado.
+                    </p>
+                </div>
+
+                <!-- Tech 4 -->
+                <div class="glassmorphism p-6 rounded-2xl space-y-3 hover:border-cyber-green transition-all group">
+                    <div class="flex items-center justify-between">
+                        <span class="text-lg font-bold text-white group-hover:text-cyber-green transition-colors">Better-Auth 1.7</span>
+                        <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyber-green/20 text-cyber-green">Auth + Admin Plugin</span>
+                    </div>
+                    <p class="text-xs text-cyber-muted leading-relaxed">
+                        Sistema moderno de autenticación con hashing Scrypt, revocación de sesiones en base de datos, protección anti-fuerza bruta y plugins administrativos.
+                    </p>
+                </div>
+
+                <!-- Tech 5 -->
+                <div class="glassmorphism p-6 rounded-2xl space-y-3 hover:border-cyber-purple transition-all group">
+                    <div class="flex items-center justify-between">
+                        <span class="text-lg font-bold text-white group-hover:text-cyber-neonPurple transition-colors">Tailwind CSS v4</span>
+                        <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyber-purple/20 text-cyber-neonPurple">CSS-First Engine</span>
+                    </div>
+                    <p class="text-xs text-cyber-muted leading-relaxed">
+                        La última generación de Tailwind con motor nativo en Rust, variables CSS modernas, dark mode fluido y sin necesidad de archivo de configuración pesado.
+                    </p>
+                </div>
+
+                <!-- Tech 6 -->
+                <div class="glassmorphism p-6 rounded-2xl space-y-3 hover:border-amber-400 transition-all group">
+                    <div class="flex items-center justify-between">
+                        <span class="text-lg font-bold text-white group-hover:text-amber-400 transition-colors">Zod v4 + TanStack Query</span>
+                        <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-400/20 text-amber-400">Validación & Cache</span>
+                    </div>
+                    <p class="text-xs text-cyber-muted leading-relaxed">
+                        Validación estricta de payloads en servidor con Zod v4, combinada con sincronización y revalidación reactiva de estado asíncrono en el cliente.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: ESTRUCTURA DE LA BASE DE DATOS -->
+    <section id="db" class="py-24 px-6 bg-cyber-surface/60 border-t border-cyber-border/40 relative">
+        <div class="max-w-6xl mx-auto space-y-12">
+            <div class="text-center space-y-3">
+                <h2 class="text-xs font-mono uppercase tracking-widest text-cyber-green">// Módulo 04: Modelo Relacional</h2>
+                <h3 class="text-3xl sm:text-4xl font-extrabold font-tech text-white">Estructura de Base de Datos (PostgreSQL)</h3>
+                <p class="text-cyber-muted max-w-2xl mx-auto text-sm sm:text-base">
+                    Diseño robusto de 14 entidades en 3ra forma normal con claves foráneas, enums nativos de PostgreSQL y comprobaciones lógicas (CHECK constraints).
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-xs font-mono">
+                <!-- Entidad: Usuarios & Auth -->
+                <div class="glassmorphism p-5 rounded-xl border-t-2 border-t-cyber-purple space-y-2">
+                    <div class="flex items-center justify-between font-bold text-cyber-neonPurple">
+                        <span>1. users & sessions</span>
+                        <span class="text-[10px] text-cyber-muted font-normal">Auth & RBAC</span>
+                    </div>
+                    <p class="text-cyber-muted text-[11px] font-sans">
+                        Controla identidades, passwords hasheados, tokens de sesión y el enum <code>userRoleEnum ('admin', 'operador', 'cliente')</code>.
+                    </p>
+                </div>
+
+                <!-- Entidad: Estaciones -->
+                <div class="glassmorphism p-5 rounded-xl border-t-2 border-t-cyber-green space-y-2">
+                    <div class="flex items-center justify-between font-bold text-cyber-green">
+                        <span>2. estaciones</span>
+                        <span class="text-[10px] text-cyber-muted font-normal">Infraestructura</span>
+                    </div>
+                    <p class="text-cyber-muted text-[11px] font-sans">
+                        Puntos geográficos con capacidad física, anclajes magnéticos, coordenadas lat/lng y estado <code>('operativa', 'en_mantenimiento')</code>.
+                    </p>
+                </div>
+
+                <!-- Entidad: Bicicletas -->
+                <div class="glassmorphism p-5 rounded-xl border-t-2 border-t-cyan-400 space-y-2">
+                    <div class="flex items-center justify-between font-bold text-cyan-400">
+                        <span>3. bicicletas</span>
+                        <span class="text-[10px] text-cyber-muted font-normal">Flota Activa</span>
+                    </div>
+                    <p class="text-cyber-muted text-[11px] font-sans">
+                        Flota eléctrica con código QR único, número de serie, kilometraje, nivel de batería y estación actual asignada.
+                    </p>
+                </div>
+
+                <!-- Entidad: Baterías -->
+                <div class="glassmorphism p-5 rounded-xl border-t-2 border-t-amber-400 space-y-2">
+                    <div class="flex items-center justify-between font-bold text-amber-400">
+                        <span>4. baterias</span>
+                        <span class="text-[10px] text-cyber-muted font-normal">Componentes</span>
+                    </div>
+                    <p class="text-cyber-muted text-[11px] font-sans">
+                        Monitoreo individual de celdas de litio, ciclos de carga acumulados, temperatura operativa (°C) y estado de degradación.
+                    </p>
+                </div>
+
+                <!-- Entidad: Alquileres -->
+                <div class="glassmorphism p-5 rounded-xl border-t-2 border-t-cyber-green space-y-2">
+                    <div class="flex items-center justify-between font-bold text-cyber-green">
+                        <span>5. alquileres</span>
+                        <span class="text-[10px] text-cyber-muted font-normal">Operación Core</span>
+                    </div>
+                    <p class="text-cyber-muted text-[11px] font-sans">
+                        Registra el ciclo de viaje: usuario, bici, estación origen, estación destino, fecha inicio, fecha fin, estado y costo total en COP.
+                    </p>
+                </div>
+
+                <!-- Entidad: Tarifas -->
+                <div class="glassmorphism p-5 rounded-xl border-t-2 border-t-cyber-purple space-y-2">
+                    <div class="flex items-center justify-between font-bold text-cyber-neonPurple">
+                        <span>6. tarifas</span>
+                        <span class="text-[10px] text-cyber-muted font-normal">Precios Dinámicos</span>
+                    </div>
+                    <p class="text-cyber-muted text-[11px] font-sans">
+                        Tabla independiente que almacena la tarifa activa: <code>tarifaBase</code> ($2.000 COP) y <code>tarifaMinuto</code> ($300 COP).
+                    </p>
+                </div>
+
+                <!-- Entidad: Mantenimientos -->
+                <div class="glassmorphism p-5 rounded-xl border-t-2 border-t-rose-400 space-y-2">
+                    <div class="flex items-center justify-between font-bold text-rose-400">
+                        <span>7. mantenimientos</span>
+                        <span class="text-[10px] text-cyber-muted font-normal">Taller & Campo</span>
+                    </div>
+                    <p class="text-cyber-muted text-[11px] font-sans">
+                        Órdenes de trabajo preventivas y correctivas asociadas a bicicletas y operadores técnicos responsables.
+                    </p>
+                </div>
+
+                <!-- Entidad: Energía -->
+                <div class="glassmorphism p-5 rounded-xl border-t-2 border-t-emerald-400 space-y-2">
+                    <div class="flex items-center justify-between font-bold text-emerald-400">
+                        <span>8. registros_energia</span>
+                        <span class="text-[10px] text-cyber-muted font-normal">Sostenibilidad</span>
+                    </div>
+                    <p class="text-cyber-muted text-[11px] font-sans">
+                        Consumo de kWh por estación, costo unitario de energía, facturación calculada y alertas automáticas de anomalías de red.
+                    </p>
+                </div>
+
+                <!-- Entidad: Auditorías -->
+                <div class="glassmorphism p-5 rounded-xl border-t-2 border-t-indigo-400 space-y-2">
+                    <div class="flex items-center justify-between font-bold text-indigo-400">
+                        <span>9. auditorias</span>
+                        <span class="text-[10px] text-cyber-muted font-normal">Trazabilidad Total</span>
+                    </div>
+                    <p class="text-cyber-muted text-[11px] font-sans">
+                        Bitácora inmutable en JSONB de cambios críticos (quién cambió el estado de una bicicleta, suspensiones de cuentas o cierres forzados).
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: ARQUITECTURA POR CARPETAS -->
+    <section id="arquitectura" class="py-24 px-6 border-t border-cyber-border/40 relative">
+        <div class="max-w-6xl mx-auto space-y-12">
+            <div class="text-center space-y-3">
+                <h2 class="text-xs font-mono uppercase tracking-widest text-cyber-neonPurple">// Módulo 05: Organización de Código</h2>
+                <h3 class="text-3xl sm:text-4xl font-extrabold font-tech text-white">Estructura de Features Modular</h3>
+                <p class="text-cyber-muted max-w-2xl mx-auto text-sm sm:text-base">
+                    No agrupamos el código por tipos de archivos (todas las vistas juntas, todos los botones juntos). Agrupamos por <strong>dominios de negocio (Features)</strong>.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                <!-- Árbol de carpetas -->
+                <div class="code-container p-6 rounded-2xl border border-cyber-border text-xs leading-relaxed overflow-x-auto">
+                    <div class="text-cyber-green font-bold pb-2">// ESTRUCTURA DE SRC/FEATURES</div>
+                    <pre class="text-cyber-text">
+src/
+├── app/                      <span class="text-cyber-muted"># Rutas del App Router</span>
+│   ├── (publico)/            <span class="text-cyber-muted"># Landing, catálogo, diagrama</span>
+│   ├── (cuenta)/             <span class="text-cyber-muted"># Iniciar sesión, registro</span>
+│   └── (privado)/            <span class="text-cyber-muted"># Portal cliente y panel admin</span>
+│
+├── features/                 <span class="text-cyber-green"># Arquitectura Modular</span>
+│   ├── public/               <span class="text-cyber-muted"># Navegación y componentes públicos</span>
+│   ├── shared/               <span class="text-cyber-muted"># UI Base, paginación, helpers globales</span>
+│   └── private/
+│       ├── client-rental/    <span class="text-cyber-neonPurple"># Dominio del Cliente</span>
+│       │   ├── actions/      <span class="text-cyan-400"># Server Actions (start, return, cancel)</span>
+│       │   ├── components/   <span class="text-cyber-muted"># Cards, modales y tablas</span>
+│       │   ├── queries/      <span class="text-cyber-muted"># Hooks TanStack Query</span>
+│       │   └── validations/  <span class="text-cyber-muted"># Esquemas Zod</span>
+│       │
+│       └── dashboard/admin/  <span class="text-cyber-neonPurple"># Dominio Administrativo</span>
+│           ├── operaciones/  <span class="text-cyber-muted"># Gestión y cierre de alquileres</span>
+│           ├── estaciones/   <span class="text-cyber-muted"># Monitoreo de anclajes</span>
+│           ├── bicicletas/   <span class="text-cyber-muted"># Inventario de flota</span>
+│           ├── tarifas/      <span class="text-cyber-green"># Control de precios en COP</span>
+│           └── usuarios/     <span class="text-cyber-muted"># Control RBAC de personal</span>
+│
+└── lib/                      <span class="text-cyber-muted"># Infraestructura (db, auth, logger)</span></pre>
+                </div>
+
+                <!-- Explicación de las capas -->
+                <div class="space-y-4">
+                    <div class="glassmorphism p-5 rounded-xl space-y-2">
+                        <h4 class="font-bold text-white text-sm flex items-center gap-2">
+                            <span class="text-cyber-green">1. Actions (Server-Side)</span>
+                        </h4>
+                        <p class="text-xs text-cyber-muted leading-relaxed">
+                            Contienen la lógica de negocio pura. Verifican la identidad y el rol con <code>getSessionDetails()</code>, ejecutan transacciones atómicas en PostgreSQL y retornan una respuesta estandarizada <code>IGeneralResponse&lt;T&gt;</code>.
+                        </p>
+                    </div>
+
+                    <div class="glassmorphism p-5 rounded-xl space-y-2">
+                        <h4 class="font-bold text-white text-sm flex items-center gap-2">
+                            <span class="text-cyber-neonPurple">2. Validations (Zod v4)</span>
+                        </h4>
+                        <p class="text-xs text-cyber-muted leading-relaxed">
+                            Impiden la inyección de datos corruptos o campos maliciosos mediante esquemas estrictos (<code>.strict()</code>). Si el frontend envía un campo inesperado, el servidor lo rechaza de inmediato.
+                        </p>
+                    </div>
+
+                    <div class="glassmorphism p-5 rounded-xl space-y-2">
+                        <h4 class="font-bold text-white text-sm flex items-center gap-2">
+                            <span class="text-cyan-400">3. Queries (TanStack Query)</span>
+                        </h4>
+                        <p class="text-xs text-cyber-muted leading-relaxed">
+                            Manejan la caché del navegador. Si un usuario cambia de página y regresa, los datos se muestran al instante mientras se refrescan en segundo plano con claves normalizadas (Query Keys).
+                        </p>
+                    </div>
+
+                    <div class="glassmorphism p-5 rounded-xl space-y-2">
+                        <h4 class="font-bold text-white text-sm flex items-center gap-2">
+                            <span class="text-amber-400">4. Barrel Exports (index.ts)</span>
+                        </h4>
+                        <p class="text-xs text-cyber-muted leading-relaxed">
+                            Cada subcarpeta expone su interfaz pública mediante un archivo <code>index.ts</code>, evitando importaciones acopladas a rutas profundas.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 6: FLUJOS CLAVE Y CÁLCULO DINÁMICO -->
+    <section id="flujos" class="py-24 px-6 bg-cyber-surface/60 border-t border-cyber-border/40 relative">
+        <div class="max-w-6xl mx-auto space-y-12">
+            <div class="text-center space-y-3">
+                <h2 class="text-xs font-mono uppercase tracking-widest text-cyber-green">// Módulo 06: Casos Prácticos</h2>
+                <h3 class="text-3xl sm:text-4xl font-extrabold font-tech text-white">Lógica de Cálculo y Retorno de Viajes</h3>
+                <p class="text-cyber-muted max-w-2xl mx-auto text-sm sm:text-base">
+                    Cómo el sistema calcula en tiempo real lo que paga un usuario y cómo el administrador puede intervenir en caso de incidencias.
+                </p>
+            </div>
+
+            <!-- Fórmula Cyberpunk -->
+            <div class="glassmorphism-green p-8 rounded-2xl border border-cyber-green/50 text-center max-w-3xl mx-auto space-y-4 shadow-neon-green">
+                <div class="text-xs font-mono text-cyber-green uppercase tracking-widest">// FÓRMULA OFICIAL DE COBRO EN COP</div>
+                <div class="text-2xl sm:text-4xl font-extrabold font-mono text-white">
+                    Costo = Tarifa Base + (Minutos &times; Tarifa Minuto)
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 text-xs font-mono">
+                    <div class="p-3 rounded-lg bg-cyber-dark/60 border border-cyber-border">
+                        <span class="text-cyber-muted block">Tarifa Base:</span>
+                        <span class="text-cyber-green font-bold text-base">$2.000 COP</span>
+                        <span class="text-[10px] text-cyber-muted block">(Desbloqueo)</span>
+                    </div>
+                    <div class="p-3 rounded-lg bg-cyber-dark/60 border border-cyber-border">
+                        <span class="text-cyber-muted block">Tarifa por Minuto:</span>
+                        <span class="text-cyber-green font-bold text-base">$300 COP</span>
+                        <span class="text-[10px] text-cyber-muted block">(Uso activo)</span>
+                    </div>
+                    <div class="p-3 rounded-lg bg-cyber-dark/60 border border-cyber-border">
+                        <span class="text-cyber-muted block">Regla de Redondeo:</span>
+                        <span class="text-white font-bold text-base">Math.ceil()</span>
+                        <span class="text-[10px] text-cyber-muted block">(Mínimo 1 minuto)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paso a Paso del Flujo -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="glassmorphism p-5 rounded-xl space-y-2 border-t-2 border-t-cyber-purple">
+                    <span class="text-cyber-neonPurple font-mono font-bold text-sm">PASO 1</span>
+                    <h5 class="font-bold text-white text-sm">Reserva / Desbloqueo</h5>
+                    <p class="text-xs text-cyber-muted">
+                        El cliente elige estación y bici. El estado de la bicicleta pasa a <code>'en_uso'</code> y se genera el alquiler con <code>fechaInicio = NOW()</code>.
+                    </p>
+                </div>
+
+                <div class="glassmorphism p-5 rounded-xl space-y-2 border-t-2 border-t-cyan-400">
+                    <span class="text-cyan-400 font-mono font-bold text-sm">PASO 2</span>
+                    <h5 class="font-bold text-white text-sm">Viaje en Curso</h5>
+                    <p class="text-xs text-cyber-muted">
+                        El portal muestra un temporizador reactivo. En el panel administrativo, el alquiler figura con badge verde <code>En curso</code>.
+                    </p>
+                </div>
+
+                <div class="glassmorphism p-5 rounded-xl space-y-2 border-t-2 border-t-amber-400">
+                    <span class="text-amber-400 font-mono font-bold text-sm">PASO 3</span>
+                    <h5 class="font-bold text-white text-sm">Devolución en Estación</h5>
+                    <p class="text-xs text-cyber-muted">
+                        El cliente ancla la bici en una estación de destino. El servidor calcula los minutos exactos con la tarifa activa y cierra el ciclo.
+                    </p>
+                </div>
+
+                <div class="glassmorphism p-5 rounded-xl space-y-2 border-t-2 border-t-cyber-green">
+                    <span class="text-cyber-green font-mono font-bold text-sm">PASO 4</span>
+                    <h5 class="font-bold text-white text-sm">Historial & Finiquito</h5>
+                    <p class="text-xs text-cyber-muted">
+                        Se registran fecha fin y costo final. En el historial de ambos paneles se visualizan las columnas de <code>Fecha Inicio</code> y <code>Fecha Fin</code>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 7: RESUMEN PARA TUS COMPAÑEROS (CHEAT SHEET) -->
+    <section class="py-24 px-6 border-t border-cyber-border/40 relative">
+        <div class="max-w-4xl mx-auto space-y-8">
+            <div class="text-center space-y-2">
+                <h3 class="text-2xl sm:text-3xl font-extrabold font-tech text-white">Guía Rápida para Responder Preguntas del Profesor</h3>
+                <p class="text-cyber-muted text-sm">Puntos clave que debes dominar durante la exposición oral.</p>
+            </div>
+
+            <div class="space-y-4 text-sm">
+                <details class="glassmorphism p-4 rounded-xl cursor-pointer group">
+                    <summary class="font-bold text-cyber-green flex items-center justify-between">
+                        <span>¿Por qué usamos Drizzle ORM en lugar de Prisma o SQL nativo?</span>
+                        <span class="text-xs text-cyber-muted group-open:rotate-180 transition-transform">&darr;</span>
+                    </summary>
+                    <p class="mt-3 text-xs text-cyber-muted leading-relaxed">
+                        Prisma genera un binario pesado (Rust engine) y tiene problemas de rendimiento en entornos serverless. SQL nativo no nos da autocompletado en TypeScript. Drizzle es casi tan rápido como SQL nativo pero nos garantiza que si renombramos una columna en la base de datos, TypeScript nos marcará error en todos los lugares donde la usamos antes de compilar.
+                    </p>
+                </details>
+
+                <details class="glassmorphism p-4 rounded-xl cursor-pointer group">
+                    <summary class="font-bold text-cyber-neonPurple flex items-center justify-between">
+                        <span>¿Cómo garantizamos que un usuario no cierre el alquiler de otro?</span>
+                        <span class="text-xs text-cyber-muted group-open:rotate-180 transition-transform">&darr;</span>
+                    </summary>
+                    <p class="mt-3 text-xs text-cyber-muted leading-relaxed">
+                        En ningún momento confiamos en el cliente. En <code>returnRentalAction</code> obtenemos la sesión activa desde la cookie del navegador (<code>getSessionDetails()</code>). En la consulta SQL forzamos la condición <code>and(eq(alquiler.idAlquiler, id), eq(alquiler.idUsuario, currentUser.id))</code>. Si un cliente malicioso envía el ID de otro usuario, la base de datos no retorna filas y la operación se cancela de inmediato.
+                    </p>
+                </details>
+
+                <details class="glassmorphism p-4 rounded-xl cursor-pointer group">
+                    <summary class="font-bold text-cyan-400 flex items-center justify-between">
+                        <span>¿Cómo se maneja la consistencia si el servidor falla durante la entrega?</span>
+                        <span class="text-xs text-cyber-muted group-open:rotate-180 transition-transform">&darr;</span>
+                    </summary>
+                    <p class="mt-3 text-xs text-cyber-muted leading-relaxed">
+                        Usamos <strong>Transacciones ACID</strong> en PostgreSQL con <code>drizzleDB.transaction(async (tx) => ...)</code>. Si se actualiza el alquiler pero falla la liberación de la bicicleta, la transacción hace Rollback completo y nada queda corrupto a la mitad.
+                    </p>
+                </details>
+
+                <details class="glassmorphism p-4 rounded-xl cursor-pointer group">
+                    <summary class="font-bold text-amber-400 flex items-center justify-between">
+                        <span>¿Cómo se protegen los roles de usuario (RBAC)?</span>
+                        <span class="text-xs text-cyber-muted group-open:rotate-180 transition-transform">&darr;</span>
+                    </summary>
+                    <p class="mt-3 text-xs text-cyber-muted leading-relaxed">
+                        Tenemos una doble barrera: a nivel visual y de navegación, el layout privado y el sidebar filtran las opciones según el rol de la sesión. Pero lo más importante: <strong>a nivel de Server Action</strong>, cada acción administrativa revalida <code>hasRequiredRole(userRole, ADMIN_ROLES)</code>. Si alguien intenta invocar la Server Action por POST directo sin privilegios, recibe un 403 Forbidden.
+                    </p>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-cyber-border/40 text-center text-xs text-cyber-muted space-y-2">
+        <p class="font-mono">
+            E-BIKE SYSTEM &bull; PROYECTO SENA 02-TRIMESTRE
+        </p>
+        <p class="text-[11px] text-cyber-muted/60">
+            Desarrollado con Next.js 16 (App Router), Turbopack, React 19, Tailwind CSS v4, Drizzle ORM v2 & PostgreSQL.
+        </p>
+    </footer>
+
+</body>
+</html>
