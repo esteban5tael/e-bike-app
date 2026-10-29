@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "architecture",
+  "quality": "showcase",
+  "specification": {
+    "path": "/mnt/jebcdev/doc/tut/_sena/_programacion-software/02-trimestre/frontend-basesdatos/e-bike-app/.archify/architecture-ebike-app-20261029-082929/candidate.json",
+    "sha256": "37d025acb864d2db26bdd9c0a2e261c3a6bfc3471cee1f64681552cac606601e",
+    "bytes": 9557
+  },
+  "artifact": {
+    "path": "/mnt/jebcdev/doc/tut/_sena/_programacion-software/02-trimestre/frontend-basesdatos/e-bike-app/.archify/architecture-ebike-app-20261029-082929/e-bike-arquitectura.html",
+    "sha256": "c741705fde351a2cb7728d911faf0cbc9c23d5299a49b7de07576f15bffbbaac",
+    "bytes": 867168
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "/mnt/jebcdev/doc/tut/_sena/_programacion-software/02-trimestre/frontend-basesdatos/e-bike-app/.archify/architecture-ebike-app-20261029-082929/e-bike-arquitectura.finalize.json",
+    "summaryReceipt": "/mnt/jebcdev/doc/tut/_sena/_programacion-software/02-trimestre/frontend-basesdatos/e-bike-app/.archify/architecture-ebike-app-20261029-082929/e-bike-arquitectura.finalize-summary.json",
+    "browserCheckReceipt": "/mnt/jebcdev/doc/tut/_sena/_programacion-software/02-trimestre/frontend-basesdatos/e-bike-app/.archify/architecture-ebike-app-20261029-082929/e-bike-arquitectura.browser-check.json"
+  },
+  "update": {
+    "status": "current",
+    "installedVersion": "3.2.0",
+    "availableVersion": "3.2.0",
+    "releaseNotes": null,
+    "checkedAt": "2026-10-29T13:29:51.112Z",
+    "source": "cache",
+    "noticeRequired": false,
+    "noticeText": null
+  },
+  "visualReview": "not-requested",
+  "durationMs": 3971,
+  "browserCheck": {
+    "requested": true,
+    "ran": true
+  }
+}

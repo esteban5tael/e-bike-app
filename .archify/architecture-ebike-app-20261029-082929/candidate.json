@@ -1,0 +1,265 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "e-bike-app · arquitectura del alquiler de bicis eléctricas",
+    "locale": "es",
+    "output": ".archify/architecture-ebike-app-20261029-082929/e-bike-arquitectura.html",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/esteban5tael/e-bike-app.git",
+      "provider": "github",
+      "revision": "f524e3160aa589c2b883a1a329e820d2c3b314ea"
+    }
+  },
+  "components": [
+    {
+      "id": "visitor",
+      "type": "external",
+      "label": "Visitante o cliente",
+      "sublabel": "navegador",
+      "pos": [40, 300],
+      "size": [120, 60]
+    },
+    {
+      "id": "landing",
+      "type": "frontend",
+      "label": "Landing pública",
+      "sublabel": "estaciones y flota",
+      "pos": [230, 300],
+      "size": [150, 64],
+      "sources": [
+        { "path": "src/app/(publico)/page.tsx", "line": 28, "end_line": 38 },
+        {
+          "path": "src/features/public/landing/actions/get-random-featured-stations.action.ts",
+          "line": 15,
+          "end_line": 26
+        }
+      ]
+    },
+    {
+      "id": "authforms",
+      "type": "frontend",
+      "label": "Formularios de cuenta",
+      "sublabel": "acceso · registro · reset",
+      "pos": [450, 300],
+      "size": [150, 64],
+      "sources": [
+        { "path": "src/features/public/auth/components/login-form.tsx", "line": 19, "end_line": 38 },
+        { "path": "src/features/public/auth/components/login-form.tsx", "line": 35, "end_line": 60 }
+      ]
+    },
+    {
+      "id": "authactions",
+      "type": "backend",
+      "label": "Server Actions de auth",
+      "sublabel": "login · registro · reset",
+      "tag": "Zod + 5 intentos / 15 min",
+      "pos": [670, 300],
+      "size": [160, 64],
+      "sources": [
+        { "path": "src/features/public/auth/actions/login.action.ts", "line": 106, "end_line": 164 },
+        { "path": "src/features/public/auth/actions/register.action.ts", "line": 29, "end_line": 37 },
+        { "path": "src/lib/auth/rate-limit.ts", "line": 35, "end_line": 50 }
+      ]
+    },
+    {
+      "id": "betterauth",
+      "type": "security",
+      "label": "better-auth 1.7",
+      "sublabel": "email y contraseña · admin",
+      "tag": "sesión de 8 h",
+      "pos": [900, 300],
+      "size": [150, 64],
+      "sources": [
+        { "path": "src/lib/auth/auth.ts", "line": 27, "end_line": 67 },
+        { "path": "src/lib/auth/auth.ts", "line": 130, "end_line": 138 }
+      ]
+    },
+    {
+      "id": "gate",
+      "type": "security",
+      "label": "Guard de sesión y rol",
+      "sublabel": "getSessionDetails",
+      "tag": "un solo guard",
+      "pos": [1120, 300],
+      "size": [180, 64],
+      "sources": [
+        { "path": "src/lib/auth/session-details.ts", "line": 7, "end_line": 60 },
+        { "path": "src/lib/auth/role-guard.ts", "line": 21, "end_line": 29 }
+      ]
+    },
+    {
+      "id": "clientpanel",
+      "type": "frontend",
+      "label": "Área cliente",
+      "sublabel": "panel · rentar · alquileres",
+      "pos": [1120, 480],
+      "size": [180, 64],
+      "sources": [
+        { "path": "src/app/(privado)/panel/page.tsx", "line": 27, "end_line": 36 },
+        { "path": "src/app/(privado)/panel/rentar/page.tsx", "line": 25, "end_line": 32 }
+      ]
+    },
+    {
+      "id": "adminpanel",
+      "type": "frontend",
+      "label": "Panel de staff",
+      "sublabel": "estaciones · flota · tarifas",
+      "tag": "operador o superior",
+      "pos": [1354, 480],
+      "size": [160, 64],
+      "sources": [
+        { "path": "src/app/(privado)/panel/admin/usuarios/page.tsx", "line": 38, "end_line": 59 },
+        { "path": "src/features/private/dashboard/components/sidebar/dashboard-sidebar.tsx", "line": 45, "end_line": 57 }
+      ]
+    },
+    {
+      "id": "rentals",
+      "type": "backend",
+      "label": "Actions de alquiler",
+      "sublabel": "iniciar · devolver · cancelar",
+      "tag": "transacción Drizzle",
+      "pos": [1120, 660],
+      "size": [180, 64],
+      "sources": [
+        {
+          "path": "src/features/private/client-rental/actions/start-rental.action.ts",
+          "line": 56,
+          "end_line": 99
+        },
+        {
+          "path": "src/features/private/client-rental/actions/return-rental.action.ts",
+          "line": 38,
+          "end_line": 77
+        }
+      ]
+    },
+    {
+      "id": "adminops",
+      "type": "backend",
+      "label": "Actions de administración",
+      "sublabel": "usuarios · flota · ops",
+      "tag": "guard por rol en cada action",
+      "pos": [1354, 660],
+      "size": [160, 64],
+      "sources": [
+        {
+          "path": "src/features/private/dashboard/admin/users/actions/get-all-users.action.ts",
+          "line": 28,
+          "end_line": 42
+        },
+        {
+          "path": "src/features/private/dashboard/admin/operaciones/actions/rental.action.ts",
+          "line": 25,
+          "end_line": 37
+        }
+      ]
+    },
+    {
+      "id": "mail",
+      "type": "external",
+      "label": "Mailtrap",
+      "sublabel": "verificación y reset",
+      "pos": [900, 120],
+      "size": [150, 60],
+      "sources": [
+        { "path": "src/lib/emails/transport.ts", "line": 26, "end_line": 61 },
+        { "path": "src/lib/emails/auth-handlers.ts", "line": 40, "end_line": 58 }
+      ]
+    },
+    {
+      "id": "db",
+      "type": "database",
+      "label": "PostgreSQL",
+      "sublabel": "Drizzle ORM v2 · 16 tablas",
+      "tag": "pgEnum de roles y estados",
+      "pos": [230, 796],
+      "size": [1294, 76],
+      "sources": [
+        { "path": "src/lib/db/index.ts", "line": 1, "end_line": 10 },
+        { "path": "src/lib/db/schema.ts", "line": 110, "end_line": 120 }
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Aplicación Next.js 16 · App Router",
+      "wraps": [
+        "landing",
+        "authforms",
+        "authactions",
+        "betterauth",
+        "gate",
+        "clientpanel",
+        "adminpanel",
+        "rentals",
+        "adminops"
+      ],
+      "pad": 28
+    }
+  ],
+  "connections": [
+    { "id": "visitor-landing", "from": "visitor", "to": "landing", "label": "HTTPS", "variant": "emphasis" },
+    { "id": "landing-authforms", "from": "landing", "to": "authforms", "label": "acceso" },
+    { "id": "forms-actions", "from": "authforms", "to": "authactions" },
+    { "id": "actions-betterauth", "from": "authactions", "to": "betterauth", "label": "auth.api" },
+    { "id": "betterauth-gate", "from": "betterauth", "to": "gate", "label": "sesión" },
+    { "id": "gate-client", "from": "gate", "to": "clientpanel", "label": "rol cliente", "fromSide": "bottom", "toSide": "top" },
+    { "id": "gate-staff", "from": "gate", "to": "adminpanel", "label": "rol staff", "fromSide": "right", "toSide": "top" },
+    { "id": "client-rentals", "from": "clientpanel", "to": "rentals", "label": "inicia / devuelve", "fromSide": "bottom", "toSide": "top" },
+    { "id": "staff-adminops", "from": "adminpanel", "to": "adminops", "label": "gestiona", "fromSide": "bottom", "toSide": "top" },
+    {
+      "id": "betterauth-mail",
+      "from": "betterauth",
+      "to": "mail",
+      "label": "correo de verificación",
+      "variant": "dashed",
+      "fromSide": "top",
+      "toSide": "bottom"
+    },
+    { "id": "betterauth-db", "from": "betterauth", "to": "db", "label": "sesiones y cuentas", "fromSide": "bottom", "toSide": "top" },
+    { "id": "rentals-db", "from": "rentals", "to": "db", "label": "alquileres", "fromSide": "bottom", "toSide": "top" },
+    { "id": "adminops-db", "from": "adminops", "to": "db", "label": "flota y tarifas", "fromSide": "bottom", "toSide": "top" },
+    { "id": "landing-db", "from": "landing", "to": "db", "label": "estaciones destacadas", "fromSide": "bottom", "toSide": "top" }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Acceso y sesión",
+      "items": [
+        "Dirección desconocida, cuenta inactiva, contraseña mala y límite agotado devuelven el mismo mensaje y pagan el mismo scrypt.",
+        "El límite vive en memoria del proceso (5 fallos / 15 min): no hay handler HTTP, así que better-auth nunca aplica el suyo.",
+        "getSessionDetails relee is_active y banned en cada resolución; una cuenta suspendida pierde la sesión sin esperar a que expire."
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "Roles",
+      "items": [
+        "Un rol por cuenta: cliente, operador, administrador o superadministrador (pgEnum user_role).",
+        "ADMIN_ROLES y STAFF_ROLES alimentan hasRequiredRole; el panel de staff exige operador o superior.",
+        "Cada server action re-deriva su sujeto de la sesión: es POST-able y no hereda el guard de la página."
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Datos y dominio",
+      "items": [
+        "Iniciar y devolver un alquiler corren en transacción y tocan alquileres, bicicletas, estaciones y tarifas.",
+        "Las actions devuelven IGeneralResponse y DTOs campo por campo; ningún Date cruza al navegador.",
+        "Auditoría y registros de energía cuelgan del mismo panel de staff."
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Fuera del diagrama",
+      "items": [
+        "Perfil y avatar: el navegador sube la imagen a Cloudinary y solo la URL llega al servidor.",
+        "Correo por Mailtrap; sin MAILTRAP_API_TOKEN la entrega es un no-op silencioso.",
+        "TanStack Query cachea los listados paginados y las mutaciones invalidan la raíz."
+      ]
+    }
+  ]
+}

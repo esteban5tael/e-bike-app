@@ -4,6 +4,9 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Toaster } from "sonner";
 import {
+    APP_NAME,
+    APP_URL,
+    APP_DEFAULT_IMAGE,
     generateAsyncDescription,
     generateAsyncTitle,
     MetadataGeneratorProps,
@@ -31,11 +34,39 @@ const pageData: MetadataGeneratorProps = {
 };
 
 export async function generateMetadata(): Promise<Metadata> {
+    const title = await generateAsyncTitle(pageData.title);
+    const description = await generateAsyncDescription(pageData.description);
+
     return {
-        title: await generateAsyncTitle(pageData.title),
-        description: await generateAsyncDescription(
-            pageData.description,
-        ),
+        metadataBase: new URL(APP_URL),
+        title: {
+            default: title,
+            template: `%s | ${APP_NAME}`,
+        },
+        description,
+        applicationName: APP_NAME,
+        openGraph: {
+            type: "website",
+            locale: "es_CO",
+            url: APP_URL,
+            siteName: APP_NAME,
+            title,
+            description,
+            images: [
+                {
+                    url: APP_DEFAULT_IMAGE,
+                    width: 1200,
+                    height: 630,
+                    alt: APP_NAME,
+                },
+            ],
+        },
+        twitter: {
+            card: "summary_large_image",
+            title,
+            description,
+            images: [APP_DEFAULT_IMAGE],
+        },
     };
 }
 

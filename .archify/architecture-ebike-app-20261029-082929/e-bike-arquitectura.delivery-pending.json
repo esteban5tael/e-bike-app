@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "command": "deliver",
+  "status": "pending",
+  "receiptId": "94b4610f-ffb8-4e95-a610-11c7fe6badcb",
+  "input": "/mnt/jebcdev/doc/tut/_sena/_programacion-software/02-trimestre/frontend-basesdatos/e-bike-app/.archify/architecture-ebike-app-20261029-082929/candidate.json",
+  "output": "/mnt/jebcdev/doc/tut/_sena/_programacion-software/02-trimestre/frontend-basesdatos/e-bike-app/.archify/architecture-ebike-app-20261029-082929/e-bike-arquitectura.html"
+}
