@@ -22,7 +22,7 @@ export default function NotFound() {
         if (canGoBack) {
             router.back();
         } else {
-            router.push(process.env.PUBLIC_APP_URL || "/");
+            router.push(process.env.NEXT_PUBLIC_APP_URL || "/");
         }
     };
 

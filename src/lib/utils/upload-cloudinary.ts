@@ -1,4 +1,23 @@
 
+/**
+ * Cloud name de Cloudinary.
+ *
+ * Lleva prefijo `NEXT_PUBLIC_` porque este módulo también se ejecuta en el
+ * navegador (`uploadToCloudinary`): Next.js solo inlinea en el bundle del
+ * cliente las variables con ese prefijo. El valor es público por diseño —
+ * aparece en la URL de entrega de cada imagen.
+ */
+const CLOUDINARY_CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+
+/**
+ * Upload preset de subida directa desde el navegador.
+ *
+ * Público por diseño: un preset `unsigned` no concede credenciales. También
+ * necesita el prefijo `NEXT_PUBLIC_` por la misma razón que el cloud name.
+ */
+const CLOUDINARY_UPLOAD_PRESET =
+  process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
+
 interface UploadOptions {
     maxRetries?: number;
     timeoutMs?: number;
@@ -57,7 +76,7 @@ interface UploadOptions {
   ): Promise<CloudinaryResponse> {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
-      const url = `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`;
+      const url = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
   
       // Timeout manual
       const timer = setTimeout(() => {
@@ -102,10 +121,20 @@ interface UploadOptions {
   
     // 1. Validar antes de hacer cualquier request
     validateFile(file);
+
+    // Sin las variables públicas el navegador recibe `undefined` y la request
+    // iría a `.../v1_1/undefined/image/upload`. Mejor fallar con un mensaje
+    // claro que dejar un 404 opaco de Cloudinary.
+    if (!CLOUDINARY_CLOUD_NAME || !CLOUDINARY_UPLOAD_PRESET) {
+      throw new UploadError(
+        "La subida de imágenes no está configurada",
+        "SERVER"
+      );
+    }
   
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("upload_preset", process.env.CLOUDINARY_UPLOAD_PRESET!);
+    formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET!);
   
     let lastError: UploadError | null = null;
   
@@ -243,12 +272,12 @@ interface UploadOptions {
     publicId: string,
   ): Promise<boolean> {
     try {
-      const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
+      const cloudName = CLOUDINARY_CLOUD_NAME;
       const apiKey = process.env.CLOUDINARY_API_KEY;
       const apiSecret = process.env.CLOUDINARY_API_SECRET;
   
       if (!apiKey || !apiSecret || !cloudName) {
-        console.error("deleteFromCloudinary: Missing CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET or CLOUDINARY_CLOUD_NAME");
+        console.error("deleteFromCloudinary: Missing CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET or NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME");
         return false;
       }
 
