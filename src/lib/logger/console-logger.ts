@@ -1,5 +1,5 @@
 export const consoleLogger = (...args: unknown[]): void => {
-    if (process.env.NEXT_PUBLIC_ENVIRONMENT !== "development") {
+    if (process.env.ENVIRONMENT !== "development") {
         return;
     }
     if (args.length === 0) {
