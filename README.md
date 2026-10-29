@@ -41,13 +41,13 @@ El sistema está construido bajo principios de **arquitectura desacoplada, orien
 
 ```mermaid
 flowchart TD
-    User([Cliente / Navegador Web]) <--> NextUI[Frontend: Next.js 16 + React 19 + Base UI]
-    NextUI <--> ServerActions[Server Actions Seguras - "use server"]
-    ServerActions <--> GuardLayer[Role Guards + Rate Limiter en Memoria]
-    GuardLayer <--> BetterAuth[Better-Auth v1.7.6 Session Engine]
-    GuardLayer <--> DrizzleORM[Drizzle ORM v2 - Type-Safe SQL Queries]
-    DrizzleORM <--> NeonPG[(PostgreSQL en Neon Database)]
-    ServerActions <--> TanStackQuery[TanStack React Query Cache Invalidation]
+    User(["Cliente / Navegador Web"]) <--> NextUI["Frontend: Next.js 16 + React 19 + Base UI"]
+    NextUI <--> ServerActions["Server Actions Seguras - #quot;use server#quot;"]
+    ServerActions <--> GuardLayer["Role Guards + Rate Limiter en Memoria"]
+    GuardLayer <--> BetterAuth["Better-Auth v1.7.6 Session Engine"]
+    GuardLayer <--> DrizzleORM["Drizzle ORM v2 - Type-Safe SQL Queries"]
+    DrizzleORM <--> NeonPG[("PostgreSQL en Neon Database")]
+    ServerActions <--> TanStackQuery["TanStack React Query Cache Invalidation"]
 ```
 
 ### Principios Arquitectónicos Implementados:
@@ -186,31 +186,40 @@ pnpm install
 Crea un archivo `.env` en la raíz del proyecto tomando como plantilla `.env.example`:
 
 ```env
-# Conexión a Neon PostgreSQL
-DATABASE_URL="postgresql://usuario:password@ep-ejemplo.us-east-2.aws.neon.tech/neondb?sslmode=require"
-
-# Secreto criptográfico de autenticación (Generar con: openssl rand -base64 32)
-BETTER_AUTH_SECRET="tu-clave-secreta-super-segura-de-32-caracteres"
-BETTER_AUTH_URL="http://localhost:3000"
-
-# Entorno de desarrollo
+# --- App ---
+# Valores típicos: development | staging | production
 ENVIRONMENT="development"
 NEXT_PUBLIC_APP_URL="http://localhost:3000"
+# Valores: debug | info | warn | error
+LOG_LEVEL="error"
 
-# Contraseña maestra para el seeder de base de datos (mínimo 16 caracteres)
-SEED_USERS_PASSWORD="ClaveMaestraSegura2026!#"
-SUPER_ADMIN_ROLE="superadministrador"
+# --- Base de datos (Neon PostgreSQL) ---
+DATABASE_URL="postgresql://USER:PASSWORD@HOST/DB_NAME?sslmode=require"
 
-# Notificaciones y correos (Mailtrap para pruebas de desarrollo)
-MAILTRAP_API_TOKEN=""
-MAIL_FROM="noreply@ebikeapp.com"
+# --- Autenticación (Better-Auth) ---
+# Generar con: openssl rand -base64 32
+BETTER_AUTH_SECRET="change-me-generate-with-openssl-rand-base64-32"
+BETTER_AUTH_URL="http://localhost:3000"
 
-# Cloudinary (subida de avatares desde el navegador: valores públicos)
-NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME="tu-cloud-name"
-NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET="tu-preset-unsigned"
-CLOUDINARY_API_KEY=""
-CLOUDINARY_API_SECRET=""
+# --- Roles y seed ---
+SUPER_ADMIN_ROLE="admin"
+# Contraseña de los usuarios del seeder (mínimo 16 caracteres, solo desarrollo)
+SEED_USERS_PASSWORD="change-me"
+
+# --- Correos (Mailtrap) ---
+MAILTRAP_API_TOKEN="your-mailtrap-api-token"
+MAILTRAP_FROM_EMAIL="no-reply@your-domain.com"
+MAILTRAP_FROM_NAME="E-Bike App"
+MAILTRAP_TEST_INBOX_ID="your-test-inbox-id"
+
+# --- Cloudinary (avatares) ---
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME="your-cloud-name"
+NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET="your-upload-preset"
+CLOUDINARY_API_KEY="your-api-key"
+CLOUDINARY_API_SECRET="your-api-secret"
 ```
+
+> ⚠️ **Nunca subas `.env` a Git.** Solo `.env.example` se versiona, y únicamente con valores de ejemplo. Las variables con prefijo `NEXT_PUBLIC_` son las únicas que llegan al navegador (URL de la app, cloud name y upload preset de Cloudinary); el resto se lee solo en el servidor.
 
 ### 4. Generar Migraciones y Cargar Datos Iniciales (Seed)
 El proyecto cuenta con un pipeline automatizado para reiniciar el esquema e inyectar registros de prueba (usuarios, estaciones, bicicletas y tarifas):

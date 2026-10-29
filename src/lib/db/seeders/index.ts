@@ -426,23 +426,23 @@ async function seedEbikeInfrastructure() {
         ultMant: string;
         proxMant: string;
     }> = [
-        // 25 Bicicletas disponibles repartidas por las 10 estaciones operativas
-        { estadoBici: "disponible", estadoBat: "cargada", bateriaPct: "100.00", tempC: "23.40", km: "14.20", estacionIdx: 0, ultMant: "2026-10-01", proxMant: "2026-12-01" },
+        // 25 Bicicletas disponibles repartidas por las 10 estaciones operativas (con casos críticos <= 15%)
+        { estadoBici: "disponible", estadoBat: "baja", bateriaPct: "11.50", tempC: "23.40", km: "14.20", estacionIdx: 0, ultMant: "2026-10-01", proxMant: "2026-12-01" },
         { estadoBici: "disponible", estadoBat: "disponible", bateriaPct: "88.50", tempC: "24.10", km: "62.80", estacionIdx: 0, ultMant: "2026-10-04", proxMant: "2026-12-04" },
         { estadoBici: "disponible", estadoBat: "disponible", bateriaPct: "76.00", tempC: "25.00", km: "145.30", estacionIdx: 0, ultMant: "2026-09-20", proxMant: "2026-11-20" },
         { estadoBici: "disponible", estadoBat: "cargada", bateriaPct: "99.00", tempC: "22.80", km: "38.90", estacionIdx: 1, ultMant: "2026-10-10", proxMant: "2026-12-10" },
         { estadoBici: "disponible", estadoBat: "disponible", bateriaPct: "91.20", tempC: "24.60", km: "210.40", estacionIdx: 1, ultMant: "2026-09-28", proxMant: "2026-11-28" },
-        { estadoBici: "disponible", estadoBat: "disponible", bateriaPct: "68.40", tempC: "26.10", km: "412.70", estacionIdx: 1, ultMant: "2026-09-12", proxMant: "2026-11-12" },
+        { estadoBici: "disponible", estadoBat: "baja", bateriaPct: "14.00", tempC: "26.10", km: "412.70", estacionIdx: 1, ultMant: "2026-09-12", proxMant: "2026-11-12" },
         { estadoBici: "disponible", estadoBat: "cargada", bateriaPct: "100.00", tempC: "23.10", km: "19.50", estacionIdx: 2, ultMant: "2026-10-15", proxMant: "2026-12-15" },
         { estadoBici: "disponible", estadoBat: "disponible", bateriaPct: "82.00", tempC: "24.90", km: "184.00", estacionIdx: 2, ultMant: "2026-09-25", proxMant: "2026-11-25" },
         { estadoBici: "disponible", estadoBat: "disponible", bateriaPct: "73.50", tempC: "25.30", km: "295.60", estacionIdx: 2, ultMant: "2026-09-18", proxMant: "2026-11-18" },
-        { estadoBici: "disponible", estadoBat: "cargada", bateriaPct: "97.50", tempC: "23.70", km: "88.10", estacionIdx: 3, ultMant: "2026-10-08", proxMant: "2026-12-08" },
+        { estadoBici: "disponible", estadoBat: "baja", bateriaPct: "9.20", tempC: "23.70", km: "88.10", estacionIdx: 3, ultMant: "2026-10-08", proxMant: "2026-12-08" },
         { estadoBici: "disponible", estadoBat: "disponible", bateriaPct: "84.00", tempC: "24.40", km: "320.20", estacionIdx: 3, ultMant: "2026-09-22", proxMant: "2026-11-22" },
         { estadoBici: "disponible", estadoBat: "disponible", bateriaPct: "64.00", tempC: "26.50", km: "510.80", estacionIdx: 3, ultMant: "2026-09-05", proxMant: "2026-11-05" },
         { estadoBici: "disponible", estadoBat: "cargada", bateriaPct: "100.00", tempC: "22.90", km: "27.40", estacionIdx: 4, ultMant: "2026-10-18", proxMant: "2026-12-18" },
         { estadoBici: "disponible", estadoBat: "disponible", bateriaPct: "79.80", tempC: "25.20", km: "167.90", estacionIdx: 4, ultMant: "2026-10-02", proxMant: "2026-12-02" },
         { estadoBici: "disponible", estadoBat: "cargada", bateriaPct: "95.00", tempC: "23.80", km: "94.60", estacionIdx: 5, ultMant: "2026-10-12", proxMant: "2026-12-12" },
-        { estadoBici: "disponible", estadoBat: "disponible", bateriaPct: "86.30", tempC: "24.70", km: "248.10", estacionIdx: 5, ultMant: "2026-09-30", proxMant: "2026-11-30" },
+        { estadoBici: "disponible", estadoBat: "baja", bateriaPct: "6.80", tempC: "24.70", km: "248.10", estacionIdx: 5, ultMant: "2026-09-30", proxMant: "2026-11-30" },
         { estadoBici: "disponible", estadoBat: "disponible", bateriaPct: "71.00", tempC: "25.80", km: "389.00", estacionIdx: 6, ultMant: "2026-09-14", proxMant: "2026-11-14" },
         { estadoBici: "disponible", estadoBat: "cargada", bateriaPct: "98.00", tempC: "23.20", km: "53.70", estacionIdx: 6, ultMant: "2026-10-19", proxMant: "2026-12-19" },
         { estadoBici: "disponible", estadoBat: "disponible", bateriaPct: "89.40", tempC: "24.20", km: "176.50", estacionIdx: 7, ultMant: "2026-10-06", proxMant: "2026-12-06" },
@@ -450,15 +450,15 @@ async function seedEbikeInfrastructure() {
         { estadoBici: "disponible", estadoBat: "cargada", bateriaPct: "100.00", tempC: "23.00", km: "31.20", estacionIdx: 8, ultMant: "2026-10-20", proxMant: "2026-12-20" },
         { estadoBici: "disponible", estadoBat: "disponible", bateriaPct: "77.20", tempC: "25.10", km: "205.80", estacionIdx: 8, ultMant: "2026-09-27", proxMant: "2026-11-27" },
         { estadoBici: "disponible", estadoBat: "cargada", bateriaPct: "96.00", tempC: "23.50", km: "72.40", estacionIdx: 9, ultMant: "2026-10-14", proxMant: "2026-12-14" },
-        { estadoBici: "disponible", estadoBat: "disponible", bateriaPct: "81.50", tempC: "24.80", km: "264.90", estacionIdx: 9, ultMant: "2026-09-29", proxMant: "2026-11-29" },
+        { estadoBici: "disponible", estadoBat: "baja", bateriaPct: "13.20", tempC: "24.80", km: "264.90", estacionIdx: 9, ultMant: "2026-09-29", proxMant: "2026-11-29" },
         { estadoBici: "disponible", estadoBat: "cargando", bateriaPct: "38.00", tempC: "29.40", km: "340.10", estacionIdx: 9, ultMant: "2026-09-16", proxMant: "2026-11-16" },
 
         // 5 Bicicletas actualmente "en_uso" (rodando por Medellín, sin estación actual)
         { estadoBici: "en_uso", estadoBat: "disponible", bateriaPct: "74.00", tempC: "31.20", km: "198.40", estacionIdx: null, ultMant: "2026-10-03", proxMant: "2026-12-03" },
-        { estadoBici: "en_uso", estadoBat: "disponible", bateriaPct: "62.50", tempC: "32.80", km: "287.60", estacionIdx: null, ultMant: "2026-09-24", proxMant: "2026-11-24" },
+        { estadoBici: "en_uso", estadoBat: "baja", bateriaPct: "12.40", tempC: "32.80", km: "287.60", estacionIdx: null, ultMant: "2026-09-24", proxMant: "2026-11-24" },
         { estadoBici: "en_uso", estadoBat: "disponible", bateriaPct: "55.00", tempC: "33.50", km: "415.20", estacionIdx: null, ultMant: "2026-09-19", proxMant: "2026-11-19" },
         { estadoBici: "en_uso", estadoBat: "disponible", bateriaPct: "83.00", tempC: "30.40", km: "112.00", estacionIdx: null, ultMant: "2026-10-11", proxMant: "2026-12-11" },
-        { estadoBici: "en_uso", estadoBat: "baja", bateriaPct: "18.50", tempC: "35.10", km: "534.70", estacionIdx: null, ultMant: "2026-09-08", proxMant: "2026-11-08" },
+        { estadoBici: "en_uso", estadoBat: "baja", bateriaPct: "7.50", tempC: "35.10", km: "534.70", estacionIdx: null, ultMant: "2026-09-08", proxMant: "2026-11-08" },
 
         // 4 Bicicletas en "mantenimiento"
         { estadoBici: "mantenimiento", estadoBat: "cargando", bateriaPct: "42.00", tempC: "28.10", km: "610.00", estacionIdx: 1, ultMant: "2026-08-15", proxMant: "2026-10-25" },
@@ -715,13 +715,95 @@ async function seedOperationsAndPayments(
             estado: "completado",
         },
 
-        // --- 5 ALQUILERES ACTIVOS (En curso hoy, usando las 5 bicicletas `en_uso`) ---
+        // --- ALQUILERES HISTÓRICOS ADICIONALES (Distribuidos en las últimas 4 semanas) ---
+        {
+            idUsuario: clientes[1].id,
+            idBicicleta: bicisDisponibles[2].idBicicleta,
+            idEstacionOrigen: estacionesOperativas[0].idEstacion,
+            idEstacionDestino: estacionesOperativas[1].idEstacion,
+            fechaInicio: new Date("2026-10-05T08:30:00-05:00"),
+            fechaFin: new Date("2026-10-05T09:15:00-05:00"),
+            costoTotal: "11250.00",
+            estado: "completado",
+        },
+        {
+            idUsuario: clientes[2].id,
+            idBicicleta: bicisDisponibles[4].idBicicleta,
+            idEstacionOrigen: estacionesOperativas[2].idEstacion,
+            idEstacionDestino: estacionesOperativas[3].idEstacion,
+            fechaInicio: new Date("2026-10-08T11:00:00-05:00"),
+            fechaFin: new Date("2026-10-08T11:40:00-05:00"),
+            costoTotal: "10000.00",
+            estado: "completado",
+        },
+        {
+            idUsuario: clientes[3].id,
+            idBicicleta: bicisDisponibles[7].idBicicleta,
+            idEstacionOrigen: estacionesOperativas[4].idEstacion,
+            idEstacionDestino: estacionesOperativas[5].idEstacion,
+            fechaInicio: new Date("2026-10-12T14:15:00-05:00"),
+            fechaFin: new Date("2026-10-12T14:50:00-05:00"),
+            costoTotal: "8750.00",
+            estado: "completado",
+        },
+        {
+            idUsuario: clientes[4].id,
+            idBicicleta: bicisDisponibles[9].idBicicleta,
+            idEstacionOrigen: estacionesOperativas[6].idEstacion,
+            idEstacionDestino: estacionesOperativas[7].idEstacion,
+            fechaInicio: new Date("2026-10-14T16:00:00-05:00"),
+            fechaFin: new Date("2026-10-14T16:25:00-05:00"),
+            costoTotal: "6250.00",
+            estado: "completado",
+        },
+        {
+            idUsuario: clientes[5].id,
+            idBicicleta: bicisDisponibles[11].idBicicleta,
+            idEstacionOrigen: estacionesOperativas[8].idEstacion,
+            idEstacionDestino: estacionesOperativas[9].idEstacion,
+            fechaInicio: new Date("2026-10-16T18:00:00-05:00"),
+            fechaFin: new Date("2026-10-16T18:55:00-05:00"),
+            costoTotal: "13750.00",
+            estado: "completado",
+        },
+        {
+            idUsuario: clientes[6].id,
+            idBicicleta: bicisDisponibles[13].idBicicleta,
+            idEstacionOrigen: estacionesOperativas[1].idEstacion,
+            idEstacionDestino: estacionesOperativas[0].idEstacion,
+            fechaInicio: new Date("2026-10-20T10:10:00-05:00"),
+            fechaFin: new Date("2026-10-20T10:45:00-05:00"),
+            costoTotal: "8750.00",
+            estado: "completado",
+        },
+        {
+            idUsuario: clientes[7].id,
+            idBicicleta: bicisDisponibles[16].idBicicleta,
+            idEstacionOrigen: estacionesOperativas[3].idEstacion,
+            idEstacionDestino: estacionesOperativas[2].idEstacion,
+            fechaInicio: new Date("2026-10-22T07:45:00-05:00"),
+            fechaFin: new Date("2026-10-22T08:15:00-05:00"),
+            costoTotal: "7500.00",
+            estado: "completado",
+        },
+        {
+            idUsuario: clientes[8].id,
+            idBicicleta: bicisDisponibles[17].idBicicleta,
+            idEstacionOrigen: estacionesOperativas[5].idEstacion,
+            idEstacionDestino: estacionesOperativas[4].idEstacion,
+            fechaInicio: new Date("2026-10-25T13:00:00-05:00"),
+            fechaFin: new Date("2026-10-25T13:30:00-05:00"),
+            costoTotal: "7500.00",
+            estado: "completado",
+        },
+
+        // --- 5 ALQUILERES ACTIVOS (En curso con desfase temporal entre 8 horas y 36 horas para monitoreo de alertas de rentas prolongadas) ---
         {
             idUsuario: clientes[2].id,
             idBicicleta: bicisEnUso[0].idBicicleta,
-            idEstacionOrigen: estacionesOperativas[0].idEstacion, // Salida desde Belén
+            idEstacionOrigen: estacionesOperativas[0].idEstacion, // Salida desde Belén (~28 horas atrás)
             idEstacionDestino: null,
-            fechaInicio: new Date("2026-10-28T17:10:00-05:00"),
+            fechaInicio: new Date(Date.now() - 28 * 60 * 60 * 1000),
             fechaFin: null,
             costoTotal: null,
             estado: "activo",
@@ -729,9 +811,9 @@ async function seedOperationsAndPayments(
         {
             idUsuario: clientes[3].id,
             idBicicleta: bicisEnUso[1].idBicicleta,
-            idEstacionOrigen: estacionesOperativas[3].idEstacion, // Salida desde Ruta N
+            idEstacionOrigen: estacionesOperativas[3].idEstacion, // Salida desde Ruta N (~14 horas atrás)
             idEstacionDestino: null,
-            fechaInicio: new Date("2026-10-28T17:25:00-05:00"),
+            fechaInicio: new Date(Date.now() - 14 * 60 * 60 * 1000),
             fechaFin: null,
             costoTotal: null,
             estado: "activo",
@@ -739,9 +821,9 @@ async function seedOperationsAndPayments(
         {
             idUsuario: clientes[4].id,
             idBicicleta: bicisEnUso[2].idBicicleta,
-            idEstacionOrigen: estacionesOperativas[1].idEstacion, // Salida desde Ciudad del Río
+            idEstacionOrigen: estacionesOperativas[1].idEstacion, // Salida desde Ciudad del Río (~9 horas atrás)
             idEstacionDestino: null,
-            fechaInicio: new Date("2026-10-28T17:40:00-05:00"),
+            fechaInicio: new Date(Date.now() - 9.5 * 60 * 60 * 1000),
             fechaFin: null,
             costoTotal: null,
             estado: "activo",
@@ -749,9 +831,9 @@ async function seedOperationsAndPayments(
         {
             idUsuario: clientes[6].id,
             idBicicleta: bicisEnUso[3].idBicicleta,
-            idEstacionOrigen: estacionesOperativas[5].idEstacion, // Salida desde UPB
+            idEstacionOrigen: estacionesOperativas[5].idEstacion, // Salida desde UPB (~34 horas atrás)
             idEstacionDestino: null,
-            fechaInicio: new Date("2026-10-28T17:50:00-05:00"),
+            fechaInicio: new Date(Date.now() - 34 * 60 * 60 * 1000),
             fechaFin: null,
             costoTotal: null,
             estado: "activo",
@@ -759,9 +841,9 @@ async function seedOperationsAndPayments(
         {
             idUsuario: clientes[9].id,
             idBicicleta: bicisEnUso[4].idBicicleta,
-            idEstacionOrigen: estacionesOperativas[9].idEstacion, // Salida desde SENA Pedregal
+            idEstacionOrigen: estacionesOperativas[9].idEstacion, // Salida desde SENA Pedregal (~2 horas atrás, dentro de tiempo normal)
             idEstacionDestino: null,
-            fechaInicio: new Date("2026-10-28T17:55:00-05:00"),
+            fechaInicio: new Date(Date.now() - 2 * 60 * 60 * 1000),
             fechaFin: null,
             costoTotal: null,
             estado: "activo",
