@@ -19,6 +19,7 @@ import {
     Zap,
     ShieldCheck,
     LayoutDashboard,
+    BarChart3,
 } from "lucide-react";
 import { PrivateDashboardSidebarItem } from "./dashboard-sidebar-item";
 import { useSidebar } from "./sidebar-context";
@@ -119,6 +120,13 @@ export const PrivateDashboardSidebar = ({
                     description: "Gestión de talleres y reparaciones",
                     href: "/panel/admin/mantenimientos",
                     icon: Wrench,
+                    allowedRoles: STAFF_ROLES,
+                },
+                {
+                    title: "Informes",
+                    description: "Analítica, baterías críticas y KPIs",
+                    href: "/panel/admin/informes",
+                    icon: BarChart3,
                     allowedRoles: STAFF_ROLES,
                 },
             ],
