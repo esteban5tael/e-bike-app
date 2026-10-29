@@ -63,7 +63,7 @@ Scripts in `package.json` are only `dev`, `build`, `start`, `lint`, `seed`. Ther
 
 - `.env` is gitignored; start from `.env.example` (Spanish, heavily commented, and the authoritative list of variables). Required for `pnpm dev`: a reachable Postgres at `DATABASE_URL` and `BETTER_AUTH_SECRET` (`openssl rand -base64 32`). Without the secret better-auth falls back to a dev default and fails in production.
 - `SEED_USERS_PASSWORD` is read only by `pnpm seed`. Cloudinary keys are only needed for the avatar upload seam. Without `MAILTRAP_API_TOKEN`, email delivery is a **silent no-op**: the auth flows still complete and no mail is sent.
-- `consoleLogger` (`src/lib/logger/console-logger.ts`) returns early unless `NEXT_PUBLIC_ENVIRONMENT === "development"`. `LOG_LEVEL` in `.env.example` gates nothing in this repo — "my log line never printed" is almost always the former.
+- `consoleLogger` (`src/lib/logger/console-logger.ts`) returns early unless `ENVIRONMENT === "development"`. `LOG_LEVEL` in `.env.example` gates nothing in this repo — "my log line never printed" is almost always the former.
 - `tsconfig.json` includes `.next/types/**/*.ts` and `.next/dev/types/**/*.ts`, so route types only exist after a `next dev` or `next build` run. `next-env.d.ts` and `*.tsbuildinfo` are gitignored.
 - Comments, user-facing copy and commit messages are all in **Spanish**; commits follow Conventional Commits (`feat(auth): …`, `refactor(profile): …`).
 
