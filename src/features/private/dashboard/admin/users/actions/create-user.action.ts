@@ -150,7 +150,7 @@ export const createUserAction = async (
             image !== undefined &&
             !isOwnCloudinaryUrl(
                 image,
-                process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ?? "",
+                process.env.CLOUDINARY_CLOUD_NAME ?? "",
             )
         ) {
             logOutcome("foreign_image_host");
