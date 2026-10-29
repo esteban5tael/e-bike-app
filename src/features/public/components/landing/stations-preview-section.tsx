@@ -1,34 +1,15 @@
+"use client";
+
 import Link from "next/link";
-import { MapPin, BatteryCharging, ArrowRight } from "lucide-react";
+import { MapPin, BatteryCharging, ArrowRight, Bike } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/features/shared/components/ui/card";
 import { Button } from "@/features/shared/components/ui/button";
 import { Badge } from "@/features/shared/components/ui/badge";
-
-const mockStations = [
-    {
-        nombre: "Estación Central Parque Santander",
-        direccion: "Carrera 7 con Calle 16, Zona Centro",
-        capacidad: 20,
-        anclajesDisponibles: 8,
-        estado: "operativa",
-    },
-    {
-        nombre: "Estación Universitaria Norte",
-        direccion: "Calle 72 con Avenida Caracas",
-        capacidad: 15,
-        anclajesDisponibles: 12,
-        estado: "operativa",
-    },
-    {
-        nombre: "Estación Plaza Mayorista",
-        direccion: "Avenida 68 con Calle 45",
-        capacidad: 18,
-        anclajesDisponibles: 5,
-        estado: "operativa",
-    },
-];
+import { useFeaturedStationsQuery } from "../../landing/queries";
 
 export function StationsPreviewSection() {
+    const { data: stations = [], isLoading, isError } = useFeaturedStationsQuery();
+
     return (
         <section id="estaciones" className="py-20 md:py-28 bg-muted/20 border-t border-border/50 scroll-mt-16">
             <div className="container mx-auto px-4 sm:px-8 max-w-6xl space-y-12">
@@ -48,40 +29,55 @@ export function StationsPreviewSection() {
 
                     <Button
                         variant="outline"
-                        render={<Link href="/registrarse" />}
+                        render={<Link href="/iniciar-sesion" />}
                         className="gap-2 shrink-0"
                     >
-                        <span>Abrir mapa completo</span>
+                        <span>Ver todas y rentar</span>
                         <ArrowRight className="w-4 h-4" />
                     </Button>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {mockStations.map((station, i) => (
-                        <Card key={i} className="flex flex-col justify-between border-border/70 hover:shadow-md transition-shadow">
-                            <CardHeader className="space-y-2">
-                                <div className="flex items-start justify-between gap-2">
-                                    <div className="p-2.5 rounded-lg bg-emerald-500/10 text-emerald-500">
-                                        <MapPin className="w-5 h-5" />
+                {isLoading ? (
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div className="h-44 rounded-xl bg-card border border-border animate-pulse" />
+                        <div className="h-44 rounded-xl bg-card border border-border animate-pulse" />
+                        <div className="h-44 rounded-xl bg-card border border-border animate-pulse" />
+                    </div>
+                ) : isError || stations.length === 0 ? (
+                    <div className="p-8 text-center rounded-xl bg-card border border-border text-sm text-muted-foreground">
+                        Estaciones en sincronización. Accede al sistema para consultar la red en tiempo real.
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        {stations.map((station) => (
+                            <Card key={station.idEstacion} className="flex flex-col justify-between border-border/70 hover:shadow-md transition-shadow">
+                                <CardHeader className="space-y-2">
+                                    <div className="flex items-start justify-between gap-2">
+                                        <div className="p-2.5 rounded-lg bg-emerald-500/10 text-emerald-500">
+                                            <MapPin className="w-5 h-5" />
+                                        </div>
+                                        <Badge variant="outline" className="border-emerald-500 text-emerald-600 dark:text-emerald-400 text-xs">
+                                            Operativa
+                                        </Badge>
                                     </div>
-                                    <Badge variant="outline" className="border-emerald-500 text-emerald-600 dark:text-emerald-400 text-xs">
-                                        Operativa 24/7
-                                    </Badge>
-                                </div>
-                                <CardTitle className="text-base font-bold">{station.nombre}</CardTitle>
-                                <CardDescription className="text-xs text-muted-foreground">
-                                    {station.direccion}
-                                </CardDescription>
-                            </CardHeader>
-                            <CardContent className="pt-0">
-                                <div className="p-3 rounded-lg bg-muted/40 border border-border/40 text-xs flex justify-between items-center">
-                                    <span className="text-muted-foreground">Capacidad Total:</span>
-                                    <span className="font-semibold">{station.capacidad} anclajes</span>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    ))}
-                </div>
+                                    <CardTitle className="text-base font-bold">{station.nombre}</CardTitle>
+                                    <CardDescription className="text-xs text-muted-foreground">
+                                        {station.direccion ?? "Sin dirección registrada"}
+                                    </CardDescription>
+                                </CardHeader>
+                                <CardContent className="pt-0 space-y-2">
+                                    <div className="p-3 rounded-lg bg-muted/40 border border-border/40 text-xs flex justify-between items-center">
+                                        <span className="text-muted-foreground">Bicicletas Disponibles:</span>
+                                        <span className="font-semibold flex items-center gap-1 text-primary">
+                                            <Bike className="w-3.5 h-3.5" />
+                                            {station.bicicletasDisponibles} de {station.capacidad}
+                                        </span>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        ))}
+                    </div>
+                )}
 
                 {/* Callout de carga limpia */}
                 <div className="p-6 rounded-2xl bg-linear-to-r from-primary/10 via-emerald-500/10 to-primary/5 border border-primary/20 flex flex-col sm:flex-row items-center justify-between gap-4">

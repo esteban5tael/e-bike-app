@@ -2,7 +2,9 @@
 
 import { and, eq } from "drizzle-orm";
 import drizzleDB from "@/lib/db";
-import { alquileres, bicicletas, estaciones } from "@/lib/db/schema";
+import { alquileres, bicicletas, estaciones, tarifas } from "@/lib/db/schema";
+import { calculateRentalCost } from "@/features/shared/utils/pricing";
+import { desc } from "drizzle-orm";
 import { getSessionDetails } from "@/lib/auth/session-details";
 import { consoleLogger } from "@/lib/logger/console-logger";
 import { IGeneralResponse } from "@/features/shared/types";
@@ -71,15 +73,27 @@ export async function returnRentalAction(
             }
 
             const now = new Date();
-            const diffInMinutes = Math.max(
-                1,
-                Math.ceil((now.getTime() - rental.fechaInicio.getTime()) / (1000 * 60)),
-            );
+            // Consultar tarifa activa de la base de datos (con fallback seguro)
+            const [tarifaActiva] = await tx
+                .select({
+                    tarifaBase: tarifas.tarifaBase,
+                    tarifaMinuto: tarifas.tarifaMinuto,
+                })
+                .from(tarifas)
+                .where(eq(tarifas.esActiva, true))
+                .orderBy(desc(tarifas.updatedAt))
+                .limit(1);
 
-            // Tarifa: Base de $2.000 COP + $300 COP por minuto
-            const baseRate = 2000;
-            const perMinuteRate = 300;
-            const total = baseRate + diffInMinutes * perMinuteRate;
+            const { total } = calculateRentalCost(
+                rental.fechaInicio,
+                now,
+                tarifaActiva
+                    ? {
+                          tarifaBase: Number(tarifaActiva.tarifaBase),
+                          tarifaMinuto: Number(tarifaActiva.tarifaMinuto),
+                      }
+                    : { tarifaBase: 2000, tarifaMinuto: 300 },
+            );
             const costoString = total.toFixed(2);
 
             // 1. Actualizar el alquiler a completado

@@ -22,6 +22,7 @@ async function wipeDatabase() {
     console.log("🧹 Wiping database...\n");
 
     // 1. Módulo de auditoría y energía (hijas de baterías y estaciones)
+    await drizzleDB.delete(schema.tarifas);
     await drizzleDB.delete(schema.auditorias);
     await drizzleDB.delete(schema.registrosEnergia);
     await drizzleDB.delete(schema.alertasEnergia);
@@ -1128,8 +1129,27 @@ async function seedMaintenanceEnergyAndAudits(
 // ==========================================
 // RUNNER
 // ==========================================
+
+// ==========================================
+// 05. TARIFAS
+// ==========================================
+async function seedTarifas() {
+    console.log("🌱 Seeding tarifas...");
+    await drizzleDB.insert(schema.tarifas).values([
+        {
+            nombre: "Tarifa Estándar e-Bike",
+            tarifaBase: "2000.00",
+            tarifaMinuto: "300.00",
+            descripcion: "Tarifa activa general del sistema: $2.000 COP base de desbloqueo y $300 COP por minuto de uso.",
+            esActiva: true,
+        },
+    ]);
+    console.log("  ✅ Created active standard tariff (.000 COP base, 00 COP / min).");
+}
+
 async function main() {
     await wipeDatabase();
+    await seedTarifas();
     const allUsers = await seedUsers();
     const { estaciones, bicicletas, baterias } =
         await seedEbikeInfrastructure();

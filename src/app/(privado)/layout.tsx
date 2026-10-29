@@ -5,7 +5,11 @@ import {
     generateAsyncDescription,
     type MetadataGeneratorProps,
 } from "@/lib/seo";
-import { PrivateDashboardSidebar } from "@/features/private/dashboard/components";
+import {
+    PrivateDashboardSidebar,
+    SidebarProvider,
+    PrivateDashboardLayoutContent,
+} from "@/features/private/dashboard/components";
 import { redirect } from "next/navigation";
 
 const pageData: MetadataGeneratorProps = {
@@ -34,14 +38,13 @@ export default async function PrivateLayout({
     }
 
     return (
-        <div className="flex flex-1 min-h-[calc(100vh-4rem)] bg-background text-foreground">
-            <PrivateDashboardSidebar userRole={userRole} />
-            {/* Margen izquierdo responsivo para dejar espacio al sidebar fijo (md:pl-64) */}
-            <main className="flex-1 md:pl-64 transition-all duration-300 flex flex-col">
-                <div className="p-6 md:p-8 flex-1">
+        <SidebarProvider>
+            <div className="flex flex-1 min-h-[calc(100vh-4rem)] bg-background text-foreground">
+                <PrivateDashboardSidebar userRole={userRole} />
+                <PrivateDashboardLayoutContent>
                     {children}
-                </div>
-            </main>
-        </div>
+                </PrivateDashboardLayoutContent>
+            </div>
+        </SidebarProvider>
     );
 }
