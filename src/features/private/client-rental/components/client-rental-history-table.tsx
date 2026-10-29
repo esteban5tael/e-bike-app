@@ -62,14 +62,17 @@ export function ClientRentalHistoryTable({
         }
     };
 
-    const formatDate = (isoDate: string) => {
+    const formatDate = (isoDate: string | null | undefined) => {
+        if (!isoDate) return "—";
         const d = new Date(isoDate);
-        return d.toLocaleDateString("es-CO", {
+        if (isNaN(d.getTime())) return "—";
+        return d.toLocaleString("es-CO", {
             day: "2-digit",
-            month: "short",
+            month: "2-digit",
             year: "numeric",
             hour: "2-digit",
             minute: "2-digit",
+            hour12: true,
         });
     };
 
@@ -105,9 +108,9 @@ export function ClientRentalHistoryTable({
                                 <thead className="bg-muted/50 text-xs font-semibold text-muted-foreground uppercase border-b border-border">
                                     <tr>
                                         <th className="px-4 py-3">Bicicleta</th>
-                                        <th className="px-4 py-3">Origen</th>
-                                        <th className="px-4 py-3">Destino</th>
+                                        <th className="px-4 py-3">Ruta (Origen &rarr; Destino)</th>
                                         <th className="px-4 py-3">Fecha Inicio</th>
+                                        <th className="px-4 py-3">Fecha Fin</th>
                                         <th className="px-4 py-3">Costo</th>
                                         <th className="px-4 py-3 text-center">Estado</th>
                                     </tr>
@@ -123,14 +126,25 @@ export function ClientRentalHistoryTable({
                                                     </div>
                                                 )}
                                             </td>
-                                            <td className="px-4 py-3 text-muted-foreground">
-                                                {item.estacionOrigenNombre}
-                                            </td>
-                                            <td className="px-4 py-3 text-muted-foreground">
-                                                {item.estacionDestinoNombre ?? "—"}
-                                            </td>
                                             <td className="px-4 py-3 text-xs text-muted-foreground">
+                                                <div className="font-medium text-foreground">
+                                                    {item.estacionOrigenNombre}
+                                                </div>
+                                                <div className="text-[11px] text-muted-foreground">
+                                                    &rarr; {item.estacionDestinoNombre ?? (item.estado === "activo" ? "(En curso)" : "—")}
+                                                </div>
+                                            </td>
+                                            <td className="px-4 py-3 text-xs font-mono text-muted-foreground whitespace-nowrap">
                                                 {formatDate(item.fechaInicio)}
+                                            </td>
+                                            <td className="px-4 py-3 text-xs font-mono whitespace-nowrap">
+                                                {item.fechaFin ? (
+                                                    <span className="text-muted-foreground">{formatDate(item.fechaFin)}</span>
+                                                ) : (
+                                                    <span className="inline-flex items-center rounded-full bg-emerald-500/10 px-2 py-0.5 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
+                                                        En curso
+                                                    </span>
+                                                )}
                                             </td>
                                             <td className="px-4 py-3 font-medium text-foreground">
                                                 {formatCurrency(item.costoTotal)}

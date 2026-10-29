@@ -1,5 +1,3 @@
-export { PrivateDashboardHeader } from "./dashboard-header";
-export {
-    PrivateDashboardSidebarItem,
-    PrivateDashboardSidebar,
-} from "./sidebar";
+export * from "./dashboard-header";
+export * from "./sidebar";
+export * from "./private-dashboard-layout-content";

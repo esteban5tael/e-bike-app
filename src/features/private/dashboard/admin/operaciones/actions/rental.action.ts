@@ -1,6 +1,6 @@
 "use server";
 
-import { and, desc, count, eq, ilike, or, type SQL } from "drizzle-orm";
+import { and, desc, count, eq, ilike, or, type SQL, aliasedTable } from "drizzle-orm";
 import drizzleDB from "@/lib/db";
 import { alquileres, users, bicicletas, estaciones } from "@/lib/db/schema";
 import { getSessionDetails } from "@/lib/auth/session-details";
@@ -85,6 +85,9 @@ export async function getAllRentalsAction(
         const page = clampPage(requestedPage, totalPages);
         const offset = (page - 1) * pageSize;
 
+        const estacionOrigen = aliasedTable(estaciones, "estacion_origen");
+        const estacionDestino = aliasedTable(estaciones, "estacion_destino");
+
         const rows = await drizzleDB
             .select({
                 idAlquiler: alquileres.idAlquiler,
@@ -95,8 +98,9 @@ export async function getAllRentalsAction(
                 idBicicleta: alquileres.idBicicleta,
                 bicicletaNumeroSerie: bicicletas.numeroSerie,
                 idEstacionOrigen: alquileres.idEstacionOrigen,
-                estacionOrigenNombre: estaciones.nombre,
+                estacionOrigenNombre: estacionOrigen.nombre,
                 idEstacionDestino: alquileres.idEstacionDestino,
+                estacionDestinoNombre: estacionDestino.nombre,
                 fechaInicio: alquileres.fechaInicio,
                 fechaFin: alquileres.fechaFin,
                 costoTotal: alquileres.costoTotal,
@@ -106,8 +110,12 @@ export async function getAllRentalsAction(
             .leftJoin(users, eq(alquileres.idUsuario, users.id))
             .leftJoin(bicicletas, eq(alquileres.idBicicleta, bicicletas.idBicicleta))
             .leftJoin(
-                estaciones,
-                eq(alquileres.idEstacionOrigen, estaciones.idEstacion),
+                estacionOrigen,
+                eq(alquileres.idEstacionOrigen, estacionOrigen.idEstacion),
+            )
+            .leftJoin(
+                estacionDestino,
+                eq(alquileres.idEstacionDestino, estacionDestino.idEstacion),
             )
             .where(whereClause)
             .orderBy(desc(alquileres.fechaInicio), desc(alquileres.idAlquiler))
@@ -125,7 +133,7 @@ export async function getAllRentalsAction(
             idEstacionOrigen: row.idEstacionOrigen,
             estacionOrigenNombre: row.estacionOrigenNombre,
             idEstacionDestino: row.idEstacionDestino,
-            estacionDestinoNombre: null,
+            estacionDestinoNombre: row.estacionDestinoNombre ?? null,
             fechaInicio: row.fechaInicio.toISOString(),
             fechaFin: row.fechaFin ? row.fechaFin.toISOString() : null,
             costoTotal: row.costoTotal ? Number(row.costoTotal) : null,

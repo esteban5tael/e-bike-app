@@ -121,8 +121,9 @@ export function AdminRentalsGrid() {
                                     <th className="px-4 py-3">ID / UUID</th>
                                     <th className="px-4 py-3">Usuario</th>
                                     <th className="px-4 py-3">Bicicleta</th>
-                                    <th className="px-4 py-3">Origen</th>
-                                    <th className="px-4 py-3">Inicio</th>
+                                    <th className="px-4 py-3">Ruta</th>
+                                    <th className="px-4 py-3">Fecha Inicio</th>
+                                    <th className="px-4 py-3">Fecha Fin</th>
                                     <th className="px-4 py-3">Costo</th>
                                     <th className="px-4 py-3">Estado</th>
                                     <th className="px-4 py-3 text-right">Acción</th>
@@ -152,11 +153,27 @@ export function AdminRentalsGrid() {
                                         <td className="px-4 py-3 font-semibold text-foreground">
                                             {rental.bicicletaNumeroSerie || `#${rental.idBicicleta}`}
                                         </td>
-                                        <td className="px-4 py-3 text-muted-foreground">
-                                            {rental.estacionOrigenNombre || `Estación #${rental.idEstacionOrigen}`}
-                                        </td>
                                         <td className="px-4 py-3 text-xs text-muted-foreground">
+                                            <div className="text-foreground font-medium">
+                                                De: {rental.estacionOrigenNombre || `Estación #${rental.idEstacionOrigen}`}
+                                            </div>
+                                            <div className="text-[11px] text-muted-foreground">
+                                                A: {rental.estacionDestinoNombre || (rental.estado === "activo" ? "(En curso)" : "—")}
+                                            </div>
+                                        </td>
+                                        <td className="px-4 py-3 text-xs font-mono text-muted-foreground whitespace-nowrap">
                                             {new Date(rental.fechaInicio).toLocaleString("es-CO")}
+                                        </td>
+                                        <td className="px-4 py-3 text-xs font-mono whitespace-nowrap">
+                                            {rental.fechaFin ? (
+                                                <span className="text-muted-foreground">
+                                                    {new Date(rental.fechaFin).toLocaleString("es-CO")}
+                                                </span>
+                                            ) : (
+                                                <span className="inline-flex items-center rounded-full bg-emerald-500/10 px-2 py-0.5 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
+                                                    En curso
+                                                </span>
+                                            )}
                                         </td>
                                         <td className="px-4 py-3 font-mono text-xs text-foreground">
                                             {rental.costoTotal ? `$${rental.costoTotal.toLocaleString()}` : "En curso"}

@@ -596,6 +596,32 @@ export const auditorias = pgTable("auditorias", {
 });
 
 // =====================================================================
+// 14. TARIFAS (Gestión de Precios)
+// =====================================================================
+
+export const tarifas = pgTable("tarifas", {
+    idTarifa: serial("id_tarifa").primaryKey(),
+    nombre: varchar("nombre", { length: 100 }).notNull(),
+    tarifaBase: numeric("tarifa_base", {
+        precision: 10,
+        scale: 2,
+    }).notNull(),
+    tarifaMinuto: numeric("tarifa_minuto", {
+        precision: 10,
+        scale: 2,
+    }).notNull(),
+    descripcion: text("descripcion"),
+    esActiva: boolean("es_activa").default(true).notNull(),
+    createdAt: timestamp("created_at", { mode: "date" })
+        .defaultNow()
+        .notNull(),
+    updatedAt: timestamp("updated_at", { mode: "date" })
+        .defaultNow()
+        .$onUpdate(() => new Date())
+        .notNull(),
+});
+
+// =====================================================================
 // RELACIONES (defineRelations v2 - Drizzle 1.0.0-rc.4)
 // =====================================================================
 
@@ -616,6 +642,7 @@ export const relations = defineRelations(
         alertasEnergia,
         registrosEnergia,
         auditorias,
+        tarifas,
     },
     (r) => ({
         users: {
@@ -875,6 +902,9 @@ export type RegistrosEnergiaInsert = InferInsertModel<
 
 export type AuditoriasSelect = InferSelectModel<typeof auditorias>;
 export type AuditoriasInsert = InferInsertModel<typeof auditorias>;
+
+export type Tarifa = InferSelectModel<typeof tarifas>;
+export type NewTarifa = InferInsertModel<typeof tarifas>;
 
 export type EstadoEstacion =
     (typeof estadoEstacionEnum.enumValues)[number];

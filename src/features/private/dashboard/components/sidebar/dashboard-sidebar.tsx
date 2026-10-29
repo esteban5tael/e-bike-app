@@ -3,6 +3,7 @@
 import { useState } from "react";
 import {
     Settings,
+    Coins,
     Users,
     PanelLeftClose,
     PanelLeftOpen,
@@ -20,6 +21,7 @@ import {
     LayoutDashboard,
 } from "lucide-react";
 import { PrivateDashboardSidebarItem } from "./dashboard-sidebar-item";
+import { useSidebar } from "./sidebar-context";
 import { useLogout } from "@/lib/auth/use-logout";
 import { hasRequiredRole } from "@/lib/auth/role-guard";
 import { ADMIN_ROLES, STAFF_ROLES } from "@/lib/auth/roles.constants";
@@ -36,7 +38,7 @@ interface SidebarProps {
 export const PrivateDashboardSidebar = ({
     userRole,
 }: SidebarProps) => {
-    const [isCollapsed, setIsCollapsed] = useState(false);
+    const { isCollapsed, setIsCollapsed } = useSidebar();
     const [mobileOpen, setMobileOpen] = useState(false);
     const { logout, isPending } = useLogout();
 
@@ -154,6 +156,13 @@ export const PrivateDashboardSidebar = ({
                     description: "Gestión de usuarios del sistema",
                     href: "/panel/admin/usuarios",
                     icon: Users,
+                    allowedRoles: ADMIN_ROLES,
+                },
+                {
+                    title: "Tarifas",
+                    description: "Precios base y por minuto en COP",
+                    href: "/panel/admin/tarifas",
+                    icon: Coins,
                     allowedRoles: ADMIN_ROLES,
                 },
             ],
