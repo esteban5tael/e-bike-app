@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "94b4610f-ffb8-4e95-a610-11c7fe6badcb",
+  "status": "failed",
+  "command": "deliver",
+  "stage": "render",
+  "input": "/mnt/jebcdev/doc/tut/_sena/_programacion-software/02-trimestre/frontend-basesdatos/e-bike-app/.archify/architecture-ebike-app-20261029-082929/candidate.json",
+  "output": "/mnt/jebcdev/doc/tut/_sena/_programacion-software/02-trimestre/frontend-basesdatos/e-bike-app/.archify/architecture-ebike-app-20261029-082929/e-bike-arquitectura.html",
+  "artifact": {
+    "sha256": "c741705fde351a2cb7728d911faf0cbc9c23d5299a49b7de07576f15bffbbaac",
+    "bytes": 867168
+  },
+  "error": "Architecture layout validation failed:\n- [clean-flow/endpoint-side-direction] architecture connections[10] id \"betterauth-db\" \"betterauth\" -> \"db\" final segment 1 [975, 780] -> [877, 796] does not honor toSide \"top\" — it must run vertical downward from above; keep automatic routing so the renderer can use a side-aware bridge, or set truthful fromSide/toSide with perpendicular via segments.\n- [clean-flow/endpoint-side-direction] architecture connections[11] id \"rentals-db\" \"rentals\" -> \"db\" final segment 1 [1210, 780] -> [877, 796] does not honor toSide \"top\" — it must run vertical downward from above; keep automatic routing so the renderer can use a side-aware bridge, or set truthful fromSide/toSide with perpendicular via segments.\n- [clean-flow/endpoint-side-direction] architecture connections[12] id \"adminops-db\" \"adminops\" -> \"db\" final segment 1 [1434, 780] -> [877, 796] does not honor toSide \"top\" — it must run vertical downward from above; keep automatic routing so the renderer can use a side-aware bridge, or set truthful fromSide/toSide with perpendicular via segments.\n- [clean-flow/endpoint-side-direction] architecture connections[13] id \"landing-db\" \"landing\" -> \"db\" final segment 1 [305, 780] -> [877, 796] does not honor toSide \"top\" — it must run vertical downward from above; keep automatic routing so the renderer can use a side-aware bridge, or set truthful fromSide/toSide with perpendicular via segments."
+}
