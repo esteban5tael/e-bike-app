@@ -31,7 +31,7 @@ export const registerAction = async (
                 name,
                 email,
                 password,
-                callbackURL: process.env.PUBLIC_APP_URL!,
+                callbackURL: process.env.NEXT_PUBLIC_APP_URL!,
             },
             headers: await headers(),
         });

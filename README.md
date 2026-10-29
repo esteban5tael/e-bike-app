@@ -204,6 +204,12 @@ SUPER_ADMIN_ROLE="superadministrador"
 # Notificaciones y correos (Mailtrap para pruebas de desarrollo)
 MAILTRAP_API_TOKEN=""
 MAIL_FROM="noreply@ebikeapp.com"
+
+# Cloudinary (subida de avatares desde el navegador: valores públicos)
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME="tu-cloud-name"
+NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET="tu-preset-unsigned"
+CLOUDINARY_API_KEY=""
+CLOUDINARY_API_SECRET=""
 ```
 
 ### 4. Generar Migraciones y Cargar Datos Iniciales (Seed)

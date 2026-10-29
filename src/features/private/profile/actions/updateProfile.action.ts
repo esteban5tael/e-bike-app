@@ -131,7 +131,7 @@ export const updateProfileAction = async (
         }
 
         const p = parsed.data;
-        const cloudName = process.env.CLOUDINARY_CLOUD_NAME ?? "";
+        const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ?? "";
 
         // ⚠️ Presencia, no veracidad: `image: null` es "quitar el avatar" y debe
         // llegar a better-auth. `if (p.image)` lo confundiría con "no lo toqué".

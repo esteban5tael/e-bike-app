@@ -19,7 +19,7 @@ import type { OutgoingEmail } from "./types";
  * crudo, y con él se construye el enlace contra la página real.
  */
 const APP_URL = (
-    process.env.PUBLIC_APP_URL ??
+    process.env.NEXT_PUBLIC_APP_URL ??
     process.env.BETTER_AUTH_URL ??
     ""
 ).replace(/\/+$/, "");

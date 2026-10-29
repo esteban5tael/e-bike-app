@@ -84,7 +84,7 @@ export const requestPasswordResetAction = async (
     }
 
     const appUrl =
-        process.env.PUBLIC_APP_URL ??
+        process.env.NEXT_PUBLIC_APP_URL ??
         process.env.BETTER_AUTH_URL ??
         "";
     const redirectTo = `${appUrl.replace(/\/+$/, "")}${RESET_PASSWORD_PATH}`;

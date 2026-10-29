@@ -225,7 +225,7 @@ async function seedUsers(): Promise<schema.UsersSelect[]> {
                 password: GENERAL_PASSWORD,
                 telefono: userData.telefono,
                 callbackURL:
-                    process.env.PUBLIC_APP_URL ||
+                    process.env.NEXT_PUBLIC_APP_URL ||
                     "http://localhost:3000",
             },
             headers: new Headers(),
